@@ -1,31 +1,6 @@
 import { useReducer } from 'react'
 import { supabase } from '../lib/supabase'
-
-// Types
-export interface ProfileData {
-  // Personal Info
-  fullName?: string
-  rh?: string
-  idType?: string
-  idNumber?: string
-  healthInsurance?: string
-  healthInsuranceNumber?: string
-  extraInfo?: string
-
-  // Emergency Info
-  emergencyName?: string
-  emergencyContact?: string
-  emergencyRelationship?: string
-}
-
-export interface Profile {
-  id?: string
-  profile_title?: string
-  profile_description?: string
-  data?: ProfileData
-  isExpanded?: boolean
-  chosen?: boolean
-}
+import { type Profile, type ProfileData } from '../objects/profile'
 
 type ProfileAction =
   | { type: 'ADD_PROFILE'; payload: Profile }
