@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
+import toast from 'react-hot-toast'
 
 export function Login() {
   const navigate = useNavigate()
@@ -14,16 +15,20 @@ export function Login() {
     setLoading(true)
     setError(null)
 
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password,
-    })
+    try {
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
 
-    if (error) {
-      setError(error.message)
-      setLoading(false)
-    } else {
+      if (error) throw error
       navigate('/dashboard')
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'An error occurred'
+      setError(message)
+      toast.error(message)
+    } finally {
+      setLoading(false)
     }
   }
 

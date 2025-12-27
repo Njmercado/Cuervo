@@ -1,5 +1,4 @@
 import { useReducer } from 'react'
-import { supabase } from '../lib/supabase'
 import { type Profile, type ProfileData } from '../objects/profile'
 
 type ProfileAction =
@@ -29,7 +28,7 @@ const profileReducer = (state: Profile[], action: ProfileAction): Profile[] => {
     case 'ADD_PROFILE':
       return [...state, action.payload]
     case 'REMOVE_PROFILE':
-      return state.filter((p, profileIndex) => p.id !== action.payload?.id || profileIndex !== action.index)
+      return state.filter((p, profileIndex) => p.id != action.payload?.id || profileIndex != action.index)
     case 'TOGGLE_PROFILE':
       return state.map((p, profileIndex) =>
         p.id === action.payload?.id || profileIndex === action.index ? { ...p, isExpanded: !p.isExpanded } : p
@@ -82,33 +81,15 @@ export function useProfiles() {
     })
   }
 
-  const removeProfile = async (id: string | undefined, index: number) => {
-    if (profiles.length === 1) {
-      alert('Must have at least one profile')
-      return
-    }
-
-    if (!id) {
-      dispatch({ type: 'REMOVE_PROFILE', payload: {}, index })
-      return
-    }
-
-    const { error } = await supabase.from('PublicUser').delete().eq('id', id)
-
-    if (error) {
-      console.error('Error deleting profile:', error)
-      alert('Error deleting profile')
-      return
-    }
-
-    dispatch({ type: 'REMOVE_PROFILE', payload: { id } })
+  const removeProfile = (id: string | undefined, index: number) => {
+    dispatch({ type: 'REMOVE_PROFILE', payload: { id }, index })
   }
 
   const toggleProfile = (id: string | undefined, index: number) => {
     dispatch({ type: 'TOGGLE_PROFILE', payload: { id }, index })
   }
 
-  const activateProfile = async (id: string | undefined, index: number) => {
+  const activateProfile = (id: string | undefined, index: number) => {
     if (!id) {
       dispatch({ type: 'ACTIVATE_PROFILE', payload: {}, index })
       return

@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabase'
+import toast from 'react-hot-toast'
 
 export function SignUp() {
   const navigate = useNavigate()
+  const [loading, setLoading] = useState(false)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -15,21 +16,25 @@ export function SignUp() {
     setLoading(true)
     setError(null)
 
-    const { error } = await supabase.auth.signUp({
-      email,
-      password,
-      options: {
-        data: {
-          display_name: name,
-        },
-      },
-    })
+    try {
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            display_name: name,
+          }
+        }
+      })
 
-    if (error) {
-      setError(error.message)
-      setLoading(false)
-    } else {
+      if (error) throw error
       navigate('/dashboard')
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'An error occurred'
+      setError(message)
+      toast.error(message)
+    } finally {
+      setLoading(false)
     }
   }
 
