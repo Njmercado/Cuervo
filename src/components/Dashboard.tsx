@@ -5,6 +5,7 @@ import { useProfiles } from '../hooks/useProfiles'
 import { type Profile as ProfileType } from '../objects/profile'
 import { useEffect } from 'react'
 import { Profile } from './Profile'
+import { INITIAL_PROFILE_DATA } from '../constants/profile.constant'
 import toast from 'react-hot-toast'
 
 export function Dashboard() {
@@ -13,12 +14,8 @@ export function Dashboard() {
   const {
     profiles,
     loadProfiles,
-    addProfile,
     removeProfile,
-    toggleProfile,
-    activateProfile,
-    updateProfileMeta,
-    updateProfileData
+    chooseProfile,
   } = useProfiles()
 
   const handleLogout = async () => {
@@ -35,7 +32,7 @@ export function Dashboard() {
 
   useEffect(() => {
     reloadProfiles()
-  }, [user?.id])
+  }, [])
 
   const createProfile = async (profile: ProfileType) => {
     const { error } = await supabase.from('PublicUser').insert({
@@ -54,6 +51,7 @@ export function Dashboard() {
 
     reloadProfiles()
 
+    window.scrollTo({ top: 0, behavior: 'smooth' })
     toast.success(`Perfil ${profile.profile_title} guardado`)
   }
 
@@ -89,12 +87,11 @@ export function Dashboard() {
       return
     }
 
+    chooseProfile(id)
     toast.success(`Cambios guardados para: ${profile.profile_title}`)
   }
 
-  const handleDeleteProfile = async (id: string | undefined, index: number) => {
-    if (!id) return
-
+  const handleDeleteProfile = async (id: string) => {
     const profile = profiles.find(p => p.id == id)
     if (profile?.chosen) {
       toast.error('No puedes eliminar el perfil activo, primero cambia de perfil y luego elimina')
@@ -108,54 +105,49 @@ export function Dashboard() {
       return
     }
 
-    removeProfile(id, index)
+    removeProfile(id)
     toast.success(`Perfil eliminado`)
   }
 
-  const handleUpdateChosenStatus = async (id: string | undefined, index: number, profile: ProfileType) => {
-    activateProfile(profile.id, index)
-    if (!id) return
-    updateChosenStatus(id, profile)
-  }
-
   return (
-    <main className="min-h-screen min-w-screen bg-black p-8 text-white">
-      <div className="flex justify-end">
-        <button
-          onClick={handleLogout}
-          className="px-4 py-2 text-sm font-semibold border border-white/20 hover:bg-white/10 transition-colors uppercase tracking-widest cursor-pointer"
-        >
-          Logout
-        </button>
-      </div>
-      <div className="max-w-4xl mx-auto space-y-8">
-        <header className="flex justify-between items-center border-b border-white/20 pb-6">
-          <h1 className="text-3xl font-bold tracking-tighter">{user?.email}</h1>
-          <div className="flex gap-4">
+    <main className="min-h-screen md:min-w-screen lg:min-w-5xl bg-black p-8 text-white relative">
+      <div className="space-y-8">
+        <header className="border-b border-white/20 pb-6">
+          <div className="flex justify-end">
             <button
-              onClick={addProfile}
-              className="px-4 py-2 text-sm font-semibold bg-white text-black hover:bg-gray-200 transition-colors uppercase tracking-widest cursor-pointer"
+              onClick={handleLogout}
+              className="px-4 py-2 text-sm font-semibold border border-white/20 hover:bg-white/10 transition-colors uppercase tracking-widest cursor-pointer"
             >
-              Add Profile
+              Cerrar Sesión
             </button>
-
+          </div>
+          <div className="flex gap-4 w-full justify-between mt-1">
+            <h1 className="text-3xl font-bold tracking-tighter">{user?.identities?.[0].identity_data?.display_name}</h1>
           </div>
         </header>
 
         <section className="space-y-4" aria-label="Profiles List">
-          {profiles.map((profile, index) => (
+          {profiles.map((profile) => (
             <Profile
-              key={profile.id || index}
+              key={profile.id}
               profile={profile}
-              index={index}
-              onToggle={() => toggleProfile(profile.id, index)}
-              onActivate={(e) => { e.stopPropagation(); handleUpdateChosenStatus(profile.id, index, profile); }}
-              onDelete={(e) => { e.stopPropagation(); handleDeleteProfile(profile.id, index); }}
-              onUpdateMeta={(field, value) => updateProfileMeta(profile.id, index, field, value)}
-              onUpdateData={(field, value) => updateProfileData(profile.id, index, field, value)}
-              onSave={() => profile.id ? updateProfile(profile) : createProfile(profile)}
+              expand={false}
+              onChosen={(e) => { e.stopPropagation(); updateChosenStatus(profile.id, profile); }}
+              onDelete={(e) => { e.stopPropagation(); handleDeleteProfile(profile.id); }}
+              onSave={(updatedProfile) => updateProfile(updatedProfile)}
             />
           ))}
+          <Profile
+            profile={{
+              id: '',
+              profile_title: 'NEW PROFILE',
+              profile_description: '',
+              data: { ...INITIAL_PROFILE_DATA },
+            }}
+            expand={true}
+            isChosenable={false}
+            onSave={(newProfile) => createProfile(newProfile)}
+          />
         </section>
       </div>
     </main>

@@ -15,7 +15,7 @@ export interface ProfileData {
 }
 
 export interface Profile {
-  id?: string
+  id: string
   profile_title?: string
   profile_description?: string
   data?: ProfileData

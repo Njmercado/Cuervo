@@ -19,3 +19,16 @@ export const ID_TYPE = {
 } as const;
 
 export type ID_TYPE = (typeof ID_TYPE)[keyof typeof ID_TYPE];
+
+export const INITIAL_PROFILE_DATA = {
+  fullName: '',
+  rh: '',
+  idType: '',
+  idNumber: '',
+  healthInsurance: '',
+  healthInsuranceNumber: '',
+  extraInfo: '',
+  emergencyName: '',
+  emergencyContact: '',
+  emergencyRelationship: ''
+}
