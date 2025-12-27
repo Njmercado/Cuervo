@@ -127,16 +127,6 @@ export function Dashboard() {
         </header>
 
         <section className="space-y-4" aria-label="Profiles List">
-          {profiles.map((profile) => (
-            <Profile
-              key={profile.id}
-              profile={profile}
-              expand={false}
-              onChosen={(e) => { e.stopPropagation(); updateChosenStatus(profile.id, profile); }}
-              onDelete={(e) => { e.stopPropagation(); handleDeleteProfile(profile.id); }}
-              onSave={(updatedProfile) => updateProfile(updatedProfile)}
-            />
-          ))}
           <Profile
             profile={{
               id: '',
@@ -148,6 +138,16 @@ export function Dashboard() {
             isChosenable={false}
             onSave={(newProfile) => createProfile(newProfile)}
           />
+          {profiles.map((profile) => (
+            <Profile
+              key={profile.id}
+              profile={profile}
+              expand={false}
+              onChosen={(e) => { e.stopPropagation(); updateChosenStatus(profile.id, profile); }}
+              onDelete={(e) => { e.stopPropagation(); handleDeleteProfile(profile.id); }}
+              onSave={(updatedProfile) => updateProfile(updatedProfile)}
+            />
+          ))}
         </section>
       </div>
     </main>
