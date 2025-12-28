@@ -7,8 +7,14 @@ import { useEffect } from 'react'
 import { Profile } from './Profile'
 import { INITIAL_PROFILE_DATA } from '../constants/profile.constant'
 import toast from 'react-hot-toast'
+import { useState } from 'react'
+import { Modal } from './ui/Modal'
+import { useQR } from '../hooks/useQR'
+import { QR } from './ui/QR'
 
 export function Dashboard() {
+  const [showQRModal, setShowQRModal] = useState(false)
+  const { qrCode, generateQR } = useQR()
   const { user } = useAuth()
   const navigate = useNavigate()
   const {
@@ -121,8 +127,16 @@ export function Dashboard() {
               Cerrar Sesión
             </button>
           </div>
-          <div className="flex gap-4 w-full justify-between mt-1">
+          <div className="flex gap-4 w-full mt-1">
             <h1 className="text-3xl font-bold tracking-tighter">{user?.identities?.[0].identity_data?.display_name}</h1>
+            <a
+              href={`/public/${user?.id}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-4 py-2 text-xs font-semibold border border-white/20 hover:bg-white text-gray-400 hover:text-black transition-colors uppercase tracking-widest cursor-pointer flex items-center rounded"
+            >
+              Visitar perfil publico
+            </a>
           </div>
         </header>
 
@@ -150,6 +164,23 @@ export function Dashboard() {
           ))}
         </section>
       </div>
+
+      <div className="fixed bottom-8 right-8 z-40">
+        <button
+          onClick={() => {
+            generateQR()
+            setShowQRModal(true)
+          }}
+          className="w-16 h-16 bg-white text-black rounded-full shadow-[0_0_20px_rgba(255,255,255,0.3)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer border-4 border-black"
+          title="Ver mi QR"
+        >
+          <img src="qr.png" alt="QR Code icon" width="32" height="32" />
+        </button>
+      </div>
+
+      <Modal isOpen={showQRModal} onClose={() => setShowQRModal(false)} title="Tu Código QR">
+        <QR qrCode={qrCode} />
+      </Modal>
     </main>
   )
 }
