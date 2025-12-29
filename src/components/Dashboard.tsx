@@ -4,16 +4,18 @@ import { useAuth } from '../contexts/AuthContext'
 import { useProfiles } from '../hooks/useProfiles'
 import { type Profile as ProfileType } from '../objects/profile'
 import { useEffect } from 'react'
-import { Profile } from './Profile'
-import { INITIAL_PROFILE_DATA } from '../constants/profile.constant'
+import { UpdateProfile } from './ui/UpdateProfile'
+import { CreateProfile } from './ui/CreateProfile'
 import toast from 'react-hot-toast'
 import { useState } from 'react'
 import { Modal } from './ui/Modal'
+import { SideDrawer } from './ui/SideDrawer'
 import { useQR } from '../hooks/useQR'
 import { QR } from './ui/QR'
 
 export function Dashboard() {
   const [showQRModal, setShowQRModal] = useState(false)
+  const [showNewProfileDrawer, setShowNewProfileDrawer] = useState(false)
   const { qrCode, generateQR } = useQR()
   const { user } = useAuth()
   const navigate = useNavigate()
@@ -137,23 +139,18 @@ export function Dashboard() {
             >
               Visitar perfil publico
             </a>
+            <button
+              onClick={() => setShowNewProfileDrawer(true)}
+              className="px-4 py-2 text-xs font-semibold border border-white/20 hover:bg-white text-gray-400 hover:text-black transition-colors uppercase tracking-widest cursor-pointer flex items-center rounded"
+            >
+              + Nuevo Perfil
+            </button>
           </div>
         </header>
 
         <section className="space-y-4" aria-label="Profiles List">
-          <Profile
-            profile={{
-              id: '',
-              profile_title: 'NEW PROFILE',
-              profile_description: '',
-              data: { ...INITIAL_PROFILE_DATA },
-            }}
-            expand={true}
-            isChosenable={false}
-            onSave={(newProfile) => createProfile(newProfile)}
-          />
           {profiles.map((profile) => (
-            <Profile
+            <UpdateProfile
               key={profile.id}
               profile={profile}
               expand={false}
@@ -181,6 +178,15 @@ export function Dashboard() {
       <Modal isOpen={showQRModal} onClose={() => setShowQRModal(false)} title="Tu Código QR">
         <QR qrCode={qrCode} />
       </Modal>
+
+      <SideDrawer isOpen={showNewProfileDrawer} onClose={() => setShowNewProfileDrawer(false)} title="Nuevo Perfil">
+        <CreateProfile
+          onSave={(newProfile: ProfileType) => {
+            createProfile(newProfile)
+            setShowNewProfileDrawer(false)
+          }}
+        />
+      </SideDrawer>
     </main>
   )
 }

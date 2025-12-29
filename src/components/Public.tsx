@@ -79,7 +79,7 @@ export function Public() {
 
           <div className="relative z-10 text-center space-y-4">
             <div className="inline-block px-3 py-1 border border-white/20 rounded-full bg-white/5 backdrop-blur-sm">
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white">Cuervo Member</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-white">Miebro MiCuervo</span>
             </div>
             <div>
               <h1 className="text-4xl md:text-5xl font-black tracking-tighter text-white mb-2">
@@ -98,7 +98,7 @@ export function Public() {
           {/* Personal Info Section */}
           <section aria-label="Personal Information" className="space-y-6">
             <div className="flex items-center gap-4">
-              <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-white/40">Personal Information</h2>
+              <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-white/40">Información Personal</h2>
               <div className="h-px bg-white/10 flex-grow" />
             </div>
 
@@ -125,7 +125,7 @@ export function Public() {
           {/* Emergency Info Section */}
           <section aria-label="Emergency Information" className="space-y-6">
             <div className="flex items-center gap-4">
-              <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-red-500/60">Emergency Contact</h2>
+              <h2 className="text-sm font-bold uppercase tracking-[0.2em] text-red-500/60">Contacto de Emergencia</h2>
               <div className="h-px bg-red-500/20 flex-grow" />
             </div>
 
@@ -145,7 +145,7 @@ export function Public() {
 
         {/* Footer */}
         <footer className="p-6 border-t border-white/10 text-center bg-black/40">
-          <p className="text-[10px] uppercase tracking-widest text-gray-700">Protected by Cuervo System</p>
+          <p className="text-[10px] uppercase tracking-widest text-gray-700">Protegido por sistema MiCuervo</p>
         </footer>
 
       </article>
