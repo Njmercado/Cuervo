@@ -12,6 +12,7 @@ import { Modal } from './ui/Modal'
 import { SideDrawer } from './ui/SideDrawer'
 import { useQR } from '../hooks/useQR'
 import { QR } from './ui/QR'
+import { FloatingButton } from './ui/FloatingButton'
 
 export function Dashboard() {
   const [showQRModal, setShowQRModal] = useState(false)
@@ -117,6 +118,30 @@ export function Dashboard() {
     toast.success(`Perfil eliminado`)
   }
 
+  const visitPublicProfile = () => {
+    return (
+      <a
+        href={`/public/${user?.id}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="px-4 py-2 text-xs font-semibold border border-white/20 hover:bg-white text-gray-400 hover:text-black transition-colors uppercase tracking-widest cursor-pointer flex items-center rounded"
+      >
+        Visitar perfil publico
+      </a>
+    )
+  }
+
+  const createNewProfile = () => {
+    return (
+      <button
+        onClick={() => setShowNewProfileDrawer(true)}
+        className="px-4 py-2 text-xs font-semibold border border-white/20 hover:bg-white text-gray-400 hover:text-black transition-colors uppercase tracking-widest cursor-pointer flex items-center rounded"
+      >
+        Crear Perfil
+      </button>
+    )
+  }
+
   return (
     <main className="min-h-screen md:min-w-screen lg:min-w-5xl bg-black p-8 text-white relative">
       <div className="space-y-8">
@@ -126,25 +151,15 @@ export function Dashboard() {
               onClick={handleLogout}
               className="px-4 py-2 text-sm font-semibold border border-white/20 hover:bg-white/10 transition-colors uppercase tracking-widest cursor-pointer"
             >
-              Cerrar Sesión
+              Salir
             </button>
           </div>
           <div className="flex gap-4 w-full mt-1">
             <h1 className="text-3xl font-bold tracking-tighter">{user?.identities?.[0].identity_data?.display_name}</h1>
-            <a
-              href={`/public/${user?.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-4 py-2 text-xs font-semibold border border-white/20 hover:bg-white text-gray-400 hover:text-black transition-colors uppercase tracking-widest cursor-pointer flex items-center rounded"
-            >
-              Visitar perfil publico
-            </a>
-            <button
-              onClick={() => setShowNewProfileDrawer(true)}
-              className="px-4 py-2 text-xs font-semibold border border-white/20 hover:bg-white text-gray-400 hover:text-black transition-colors uppercase tracking-widest cursor-pointer flex items-center rounded"
-            >
-              + Nuevo Perfil
-            </button>
+            <div className="gap-2 hidden md:flex">
+              {visitPublicProfile()}
+              {createNewProfile()}
+            </div>
           </div>
         </header>
 
@@ -162,18 +177,26 @@ export function Dashboard() {
         </section>
       </div>
 
-      <div className="fixed bottom-8 right-8 z-40">
-        <button
-          onClick={() => {
-            generateQR()
-            setShowQRModal(true)
-          }}
-          className="w-16 h-16 bg-white text-black rounded-full shadow-[0_0_20px_rgba(255,255,255,0.3)] flex items-center justify-center hover:scale-110 active:scale-95 transition-all duration-300 cursor-pointer border-4 border-black"
-          title="Ver mi QR"
+      <FloatingButton position="bottom-left" className="block md:hidden">
+        <a
+          href={`/public/${user?.id}`}
+          target="_blank"
+          rel="noopener noreferrer"
         >
-          <img src="qr.png" alt="QR Code icon" width="32" height="32" />
-        </button>
-      </div>
+          <img src="going.png" alt="" width="20" height="20" />
+        </a>
+      </FloatingButton>
+
+      <FloatingButton onClick={() => setShowNewProfileDrawer(true)} position="bottom-center" className="block md:hidden text-3xl font-bold">
+        <img src="add.png" alt="" width="20" height="20" />
+      </FloatingButton>
+
+      <FloatingButton onClick={() => {
+        generateQR()
+        setShowQRModal(true)
+      }}>
+        <img src="qr.png" alt="QR Code icon" width="32" height="32" />
+      </FloatingButton>
 
       <Modal isOpen={showQRModal} onClose={() => setShowQRModal(false)} title="Tu Código QR">
         <QR qrCode={qrCode} />
