@@ -155,14 +155,29 @@ export function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
         </Box>
 
         {/* Emergency Info */}
-        <Box component="section" aria-label="Emergency Information">
+        <Box
+          component="section"
+          aria-label="Emergency Information"
+          sx={{
+            bgcolor: 'rgba(211, 47, 47, 0.05)',
+            '&:hover': {
+              bgcolor: 'rgba(211, 47, 47, 0.1)',
+            },
+            transition: 'background-color 0.3s ease',
+            border: '1px solid rgba(211, 47, 47, 0.3)',
+            borderRadius: 2,
+            p: 3,
+            position: 'relative',
+            overflow: 'hidden',
+          }}
+        >
           <Typography
             variant="body2"
             fontWeight={600}
             sx={{
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
-              color: 'text.secondary',
+              color: 'error.main',
               borderBottom: '1px solid',
               borderColor: 'divider',
               pb: 1,

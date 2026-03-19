@@ -124,6 +124,24 @@ export function Dashboard() {
     toast.success('Perfil eliminado')
   }
 
+  const createNewProfileButton = () => {
+    return (
+      <Button
+        onClick={() => setShowNewProfileDrawer(true)}
+        variant="outlined"
+        size="small"
+        startIcon={<AddIcon />}
+        sx={{
+          borderColor: 'divider',
+          color: 'text.secondary',
+          '&:hover': { borderColor: 'rgba(255,255,255,0.5)', bgcolor: 'white', color: 'black' },
+        }}
+      >
+        Crear Perfil
+      </Button>
+    )
+  }
+
   return (
     <Box
       component="main"
@@ -176,25 +194,24 @@ export function Dashboard() {
                 >
                   Visitar perfil publico
                 </Button>
-                <Button
-                  onClick={() => setShowNewProfileDrawer(true)}
-                  variant="outlined"
-                  size="small"
-                  startIcon={<AddIcon />}
-                  sx={{
-                    borderColor: 'divider',
-                    color: 'text.secondary',
-                    '&:hover': { borderColor: 'rgba(255,255,255,0.5)', bgcolor: 'white', color: 'black' },
-                  }}
-                >
-                  Crear Perfil
-                </Button>
+                {createNewProfileButton()}
               </Stack>
             )}
           </Box>
 
           <Divider sx={{ mt: 2, borderColor: 'divider' }} />
         </Box>
+
+        {
+          profiles.length === 0 && (
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 2, mt: 30 }}>
+              <Typography variant="h6" fontSize={30}>
+                No tienes perfiles
+              </Typography>
+              {createNewProfileButton()}
+            </Box>
+          )
+        }
 
         {/* Profiles List */}
         <Stack component="section" spacing={2} aria-label="Profiles List">

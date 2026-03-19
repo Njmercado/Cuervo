@@ -11,7 +11,9 @@ import {
   Alert,
   Divider,
   CircularProgress,
+  IconButton,
 } from '@mui/material'
+import { Visibility, VisibilityOff } from '@mui/icons-material'
 
 export function SignUp() {
   const [loading, setLoading] = useState(false)
@@ -20,6 +22,7 @@ export function SignUp() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [seePassword, setSeePassword] = useState(false)
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -109,7 +112,11 @@ export function SignUp() {
               placeholder="Your Name"
               fullWidth
               variant="standard"
-              InputLabelProps={{ sx: { textTransform: 'uppercase', fontSize: 11, letterSpacing: '0.15em' } }}
+              slotProps={{
+                inputLabel: {
+                  sx: { textTransform: 'uppercase', fontSize: 11, letterSpacing: '0.15em' }
+                }
+              }}
             />
 
             <TextField
@@ -121,20 +128,36 @@ export function SignUp() {
               fullWidth
               required
               variant="standard"
-              InputLabelProps={{ sx: { textTransform: 'uppercase', fontSize: 11, letterSpacing: '0.15em' } }}
+              slotProps={{
+                inputLabel: {
+                  sx: { textTransform: 'uppercase', fontSize: 11, letterSpacing: '0.15em' }
+                }
+              }}
             />
 
             <TextField
               label="Password"
-              type="password"
+              type={seePassword ? 'text' : 'password'}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder="••••••••"
               fullWidth
               required
-              inputProps={{ minLength: 6 }}
+              slotProps={{
+                input: {
+                  endAdornment: (
+                    <IconButton
+                      onClick={() => setSeePassword(!seePassword)}
+                    >
+                      {seePassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  ),
+                },
+                inputLabel: {
+                  sx: { textTransform: 'uppercase', fontSize: 11, letterSpacing: '0.15em' }
+                }
+              }}
               variant="standard"
-              InputLabelProps={{ sx: { textTransform: 'uppercase', fontSize: 11, letterSpacing: '0.15em' } }}
             />
 
             <Button

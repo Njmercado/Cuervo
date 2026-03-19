@@ -29,7 +29,7 @@ export function SideDrawer({ isOpen, onClose, children, title }: SideDrawerProps
       onClose={onClose}
       PaperProps={{
         sx: {
-          width: { xs: '100%', sm: 440 },
+          width: { xs: '100%', sm: 400, md: 600, lg: 800, xl: '50%' },
           bgcolor: 'background.paper',
           backgroundImage: 'none',
           borderLeft: '1px solid',
