@@ -3,8 +3,9 @@ import { type Profile as ProfileType, type ProfileData } from '../../objects/pro
 import { FormInput } from './FormInput'
 import { FormSelect } from './FormSelect'
 import { RH, ID_TYPE } from '../../constants/profile.constant'
-import { Box, Typography, TextField, alpha } from '@mui/material'
+import { Box, Typography, alpha, Divider } from '@mui/material'
 import type { SelectChangeEvent } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
 
 type ProfileAction =
   | { type: 'UPDATE_PROFILE_META'; payload: { id?: string; field: 'profile_title' | 'profile_description'; value: string }; index?: number }
@@ -31,6 +32,7 @@ interface ProfileFormProps {
 
 export function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
   const [state, dispatch] = useReducer(reducer, profile)
+  const theme = useTheme();
 
   const rhOptions = Object.values(RH)
   const idTypeOptions = Object.values(ID_TYPE)
@@ -50,50 +52,40 @@ export function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
         component="section"
         aria-label="Profile Metadata"
         sx={{
-          display: 'grid',
-          gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' },
-          gap: 3,
           bgcolor: (theme) => theme.palette.custom.glassBg,
           p: 3,
           borderRadius: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 4,
         }}
       >
         <FormInput
-          label="Profile Title"
-          placeholder="Example 1"
+          label="Titulo"
+          placeholder="Perfil Deportivo"
           value={state.profile_title || ''}
           onChange={(e) => dispatch({ type: 'UPDATE_PROFILE_META', payload: { field: 'profile_title', value: e.target.value } })}
           onClick={(e) => e.stopPropagation()}
         />
         <FormInput
-          label="Description"
-          placeholder="Profile Description"
+          label="Descripción Perfil"
+          placeholder="Perfil Deportivo"
           value={state.profile_description || ''}
           onChange={(e) => dispatch({ type: 'UPDATE_PROFILE_META', payload: { field: 'profile_description', value: e.target.value } })}
           onClick={(e) => e.stopPropagation()}
+          textarea
         />
       </Box>
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
         {/* Personal Info */}
-        <Box component="section" aria-label="Personal Information">
-          <Typography
-            variant="body2"
-            fontWeight={600}
-            sx={{
-              textTransform: 'uppercase',
-              letterSpacing: '0.1em',
-              color: 'text.secondary',
-              borderBottom: '1px solid',
-              borderColor: 'divider',
-              pb: 1,
-              mb: 3,
-            }}
-          >
-            Información Personal
+        <Box component="section" aria-label="Personal Information" mt={8}>
+          <Typography fontWeight={600} sx={{ letterSpacing: '0.1em' }}>
+            INFORMACION PERSONAL
           </Typography>
+          <Divider sx={{ mt: 1 }} />
 
-          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3 }}>
+          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3, mt: 3 }}>
             <FormInput
               label="Nombre Completo"
               value={state.data?.fullName || ''}
@@ -118,93 +110,93 @@ export function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
               value={state.data?.idNumber || ''}
               onChange={(e) => dispatch({ type: 'UPDATE_PROFILE_DATA', payload: { data: { idNumber: e.target.value } } })}
             />
+          </Box>
+
+          <Typography fontWeight={600} sx={{ letterSpacing: '0.1em', mt: 8 }}>
+            INFORMACION DE SALUD
+          </Typography>
+          <Divider sx={{ mt: 1 }} />
+          <Box sx={{
+            display: 'grid',
+            gridTemplateAreas: {
+              xs: `"insurance" "insurance-number" "extra-info"`,
+              md: `"insurance insurance-number" "extra-info extra-info"`
+            },
+            gap: 3,
+            mt: 3
+          }}>
             <FormInput
               label="Seguro de Salud"
               value={state.data?.healthInsurance || ''}
               onChange={(e) => dispatch({ type: 'UPDATE_PROFILE_DATA', payload: { data: { healthInsurance: e.target.value } } })}
+              sx={{ gridArea: 'insurance' }}
             />
             <FormInput
               label="Numero Seguro (Opcional)"
               value={state.data?.healthInsuranceNumber || ''}
               onChange={(e) => dispatch({ type: 'UPDATE_PROFILE_DATA', payload: { data: { healthInsuranceNumber: e.target.value } } })}
+              sx={{ gridArea: 'insurance-number' }}
             />
-          </Box>
-
-          {/* Extra Info */}
-          <Box sx={{ mt: 3 }}>
-            <TextField
+            <FormInput
               label="Información Extra"
+              placeholder='Informacion Extra'
               value={state.data?.extraInfo || ''}
               onChange={(e) => dispatch({ type: 'UPDATE_PROFILE_DATA', payload: { data: { extraInfo: e.target.value } } })}
-              multiline
-              minRows={3}
-              fullWidth
-              variant="outlined"
-              InputLabelProps={{
-                sx: { textTransform: 'uppercase', fontSize: 11, letterSpacing: '0.15em' },
-              }}
-              sx={{
-                '& .MuiOutlinedInput-root': {
-                  '& fieldset': { borderColor: (theme) => theme.palette.custom.glassBorder },
-                  '&:hover fieldset': { borderColor: (theme) => theme.palette.custom.glassHoverBorder },
-                  '&.Mui-focused fieldset': { borderColor: (theme) => theme.palette.custom.glassFocusBorder },
-                },
-              }}
+              textarea
+              sx={{ gridArea: 'extra-info' }}
             />
           </Box>
         </Box>
 
         {/* Emergency Info */}
-        <Box
-          component="section"
-          aria-label="Emergency Information"
-          sx={{
-            bgcolor: (theme) => alpha(theme.palette.error.main, 0.05),
-            '&:hover': {
-              bgcolor: (theme) => theme.palette.custom.errorBg,
-            },
-            transition: 'background-color 0.3s ease',
-            border: '1px solid',
-            borderColor: (theme) => theme.palette.custom.errorBorder,
-            borderRadius: 2,
-            p: 3,
-            position: 'relative',
-            overflow: 'hidden',
-          }}
-        >
+        <Box mt={8} component="section" aria-label="Emergency Information">
           <Typography
-            variant="body2"
             fontWeight={600}
             sx={{
               textTransform: 'uppercase',
               letterSpacing: '0.1em',
               color: 'error.main',
-              borderBottom: '1px solid',
-              borderColor: 'divider',
-              pb: 1,
-              mb: 3,
             }}
           >
             Información de Emergencia
           </Typography>
-
-          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3 }}>
-            <FormInput
-              label="Nombre Completo"
-              value={state.data?.emergencyName || ''}
-              onChange={(e) => dispatch({ type: 'UPDATE_PROFILE_DATA', payload: { data: { emergencyName: e.target.value } } })}
-            />
-            <FormInput
-              label="Numero de Contacto"
-              type="tel"
-              value={state.data?.emergencyContact || ''}
-              onChange={(e) => dispatch({ type: 'UPDATE_PROFILE_DATA', payload: { data: { emergencyContact: e.target.value } } })}
-            />
-            <FormInput
-              label="Parentesco"
-              value={state.data?.emergencyRelationship || ''}
-              onChange={(e) => dispatch({ type: 'UPDATE_PROFILE_DATA', payload: { data: { emergencyRelationship: e.target.value } } })}
-            />
+          <Divider sx={{ mt: 1 }} />
+          <Box
+            sx={{
+              bgcolor: alpha(theme.palette.error.main, 0.05),
+              '&:hover': {
+                bgcolor: alpha(theme.palette.error.main, 0.15),
+              },
+              transition: 'background-color 0.3s ease',
+              border: '1px solid',
+              borderColor: theme.palette.custom.errorBorder,
+              borderRadius: 2,
+              p: 3,
+              mt: 3,
+            }}
+          >
+            <Box sx={{ mt: 3, display: 'grid', gridTemplateColumns: { xs: '1fr', md: '1fr 1fr' }, gap: 3 }}>
+              <FormInput
+                label="Nombre Completo"
+                placeholder="Pedro Perez"
+                value={state.data?.emergencyName || ''}
+                onChange={(e) => dispatch({ type: 'UPDATE_PROFILE_DATA', payload: { data: { emergencyName: e.target.value } } })}
+              />
+              {/* TODO: Add phone nacionality */}
+              <FormInput
+                label="Numero de Contacto"
+                placeholder="+57 300 000 0000"
+                type="tel"
+                value={state.data?.emergencyContact || ''}
+                onChange={(e) => dispatch({ type: 'UPDATE_PROFILE_DATA', payload: { data: { emergencyContact: e.target.value } } })}
+              />
+              <FormInput
+                placeholder="Hermano"
+                label="Parentesco"
+                value={state.data?.emergencyRelationship || ''}
+                onChange={(e) => dispatch({ type: 'UPDATE_PROFILE_DATA', payload: { data: { emergencyRelationship: e.target.value } } })}
+              />
+            </Box>
           </Box>
         </Box>
       </Box>

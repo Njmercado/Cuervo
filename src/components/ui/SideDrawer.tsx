@@ -6,10 +6,11 @@ interface SideDrawerProps {
   isOpen: boolean
   onClose: () => void
   children: React.ReactNode
+  direction?: 'left' | 'right' | 'top' | 'bottom'
   title?: string
 }
 
-export function SideDrawer({ isOpen, onClose, children, title }: SideDrawerProps) {
+export function SideDrawer({ isOpen, onClose, children, direction = 'right', title }: SideDrawerProps) {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
@@ -24,17 +25,19 @@ export function SideDrawer({ isOpen, onClose, children, title }: SideDrawerProps
 
   return (
     <Drawer
-      anchor="right"
+      anchor={direction}
       open={isOpen}
       onClose={onClose}
-      PaperProps={{
-        sx: {
-          width: { xs: '100%', sm: 400, md: 600, lg: 800, xl: '50%' },
-          bgcolor: 'background.paper',
-          backgroundImage: 'none',
-          borderLeft: '1px solid',
-          borderColor: 'divider',
-        },
+      slotProps={{
+        paper: {
+          sx: {
+            width: { xs: '100%', sm: 400, md: 600, lg: 800, xl: '70%' },
+            bgcolor: 'background.paper',
+            backgroundImage: 'none',
+            borderLeft: '1px solid',
+            borderColor: 'divider',
+          }
+        }
       }}
     >
       {/* Sticky header */}
@@ -70,7 +73,7 @@ export function SideDrawer({ isOpen, onClose, children, title }: SideDrawerProps
 
       <Divider sx={{ borderColor: 'divider' }} />
 
-      <Box sx={{ p: 3, overflowY: 'auto', flexGrow: 1 }}>
+      <Box sx={{ px: 16, py: 8, overflowY: 'auto', flexGrow: 1 }}>
         {children}
       </Box>
     </Drawer>

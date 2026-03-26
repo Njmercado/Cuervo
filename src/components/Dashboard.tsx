@@ -4,35 +4,35 @@ import { useAuth } from '../contexts/AuthContext'
 import { useProfiles } from '../hooks/useProfiles'
 import { type Profile as ProfileType } from '../objects/profile'
 import { useEffect, useState } from 'react'
-import { UpdateProfile } from './ui/UpdateProfile'
-import { CreateProfile } from './ui/CreateProfile'
+import { Profile } from './ui/Profile'
 import toast from 'react-hot-toast'
-import { Modal } from './ui/Modal'
 import { SideDrawer } from './ui/SideDrawer'
-import { useQR } from '../hooks/useQR'
-import { QR } from './ui/QR'
-import { FloatingButton } from './ui/FloatingButton'
 import {
   Box,
   Button,
-  Divider,
   Stack,
   Typography,
-  useMediaQuery,
   useTheme,
+  Card,
+  CardContent,
+  CardActionArea,
+  Paper,
+  Divider,
+  Chip,
 } from '@mui/material'
-import QrCode2Icon from '@mui/icons-material/QrCode2'
-import OpenInNewIcon from '@mui/icons-material/OpenInNew'
 import AddIcon from '@mui/icons-material/Add'
+import MenuIcon from '@mui/icons-material/Menu'
+import EditIcon from '@mui/icons-material/Edit'
+import ShareIcon from '@mui/icons-material/Share'
+import ShieldIcon from '@mui/icons-material/Shield'
+import { useQR } from '../hooks/useQR'
 
 export function Dashboard() {
-  const [showQRModal, setShowQRModal] = useState(false)
   const [showNewProfileDrawer, setShowNewProfileDrawer] = useState(false)
   const { qrCode, generateQR } = useQR()
   const { user } = useAuth()
   const navigate = useNavigate()
   const theme = useTheme()
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
   const { profiles, loadProfiles, removeProfile, chooseProfile } = useProfiles()
 
   const handleLogout = async () => {
@@ -48,6 +48,7 @@ export function Dashboard() {
   }
 
   useEffect(() => {
+    generateQR(user?.id)
     reloadProfiles()
   }, [])
 
@@ -128,93 +129,104 @@ export function Dashboard() {
     return (
       <Button
         onClick={() => setShowNewProfileDrawer(true)}
-        variant="outlined"
+        variant="contained"
         size="small"
         startIcon={<AddIcon />}
         sx={{
-          borderColor: 'divider',
-          color: 'text.secondary',
-          '&:hover': { borderColor: (theme) => theme.palette.custom.glassHoverBorder, bgcolor: 'background.paper', color: 'text.primary' },
+          bgcolor: theme.palette.custom.accentDark,
         }}
       >
-        Crear Perfil
+        Crear Nuevo Perfil
       </Button>
     )
   }
 
+  const perfilPrinfipal = profiles.find((p) => p.chosen);
+
   return (
-    <Box
-      component="main"
-      sx={{
-        minHeight: '100vh',
-        bgcolor: 'background.default',
-        color: 'text.primary',
-        p: { xs: 2, md: 4 },
-        position: 'relative',
-      }}
-    >
-      <Box sx={{ maxWidth: 900, mx: 'auto' }}>
-        {/* Header */}
-        <Box component="header" sx={{ mb: 4 }}>
-          <Box sx={{ display: 'flex', justifyContent: 'flex-end', mb: 1 }}>
-            <Button
-              onClick={handleLogout}
-              variant="outlined"
-              size="small"
-              sx={{
-                borderColor: 'divider',
-                color: 'text.secondary',
-                '&:hover': { borderColor: (theme) => theme.palette.custom.glassHoverBorder, bgcolor: (theme) => theme.palette.custom.glassBg },
-              }}
-            >
-              Salir
-            </Button>
+    <Box component="main">
+      {/* Header */}
+      <Box component="header" sx={{ bgcolor: 'white', display: 'flex', flexDirection: 'row', justifyContent: 'flex-start', alignItems: 'center', gap: 4, p: 4 }}>
+        <MenuIcon sx={{ fontSize: theme.customSizes.font.h3, color: theme.palette.custom.accentDark }} />
+        <Typography
+          fontWeight={600}
+          sx={{ color: theme.palette.custom.accentDark, fontSize: theme.customSizes.font.xl }}>
+          INFORMACION DE EMERGENCIA
+        </Typography>
+      </Box>
+
+      <Box sx={{ maxWidth: '80%', mx: 'auto', p: 4 }}>
+        {/* User information */}
+        <Box component="header" sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <Box>
+            <Typography sx={{ fontSize: theme => theme.customSizes.font.small, fontWeight: 700, color: theme => theme.palette.custom.neutralDark }}> PANEL DE CONTROL </Typography>
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
+              <Typography variant="h3" fontWeight={700} sx={{ flexGrow: 1, color: theme => theme.palette.primary.main }}>
+                Hola, {user?.identities?.[0].identity_data?.display_name}
+              </Typography>
+            </Box>
           </Box>
-
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
-            <Typography variant="h4" fontWeight={900} letterSpacing="-0.04em" sx={{ flexGrow: 1 }}>
-              {user?.identities?.[0].identity_data?.display_name}
-            </Typography>
-
-            {!isMobile && (
-              <Stack direction="row" spacing={1}>
-                <Button
-                  component="a"
-                  href={`/public/${user?.id}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  variant="outlined"
-                  size="small"
-                  startIcon={<OpenInNewIcon />}
-                  sx={{
-                    borderColor: 'divider',
-                    color: 'text.secondary',
-                    '&:hover': { borderColor: (theme) => theme.palette.custom.glassHoverBorder, bgcolor: 'background.paper', color: 'text.primary' },
-                  }}
-                >
-                  Visitar perfil publico
-                </Button>
-                {createNewProfileButton()}
-              </Stack>
-            )}
-          </Box>
-
-          <Divider sx={{ mt: 2, borderColor: 'divider' }} />
+          {createNewProfileButton()}
         </Box>
 
-        {
-          profiles.length === 0 && (
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 2, mt: 30 }}>
-              <Typography variant="h6" fontSize={30}>
-                No tienes perfiles
-              </Typography>
-              {createNewProfileButton()}
-            </Box>
-          )
-        }
+        {/* Profile content*/}
 
-        {/* Profiles List */}
-        <Stack component="section" spacing={2} aria-label="Profiles List">
+        <Box>
+          {/* MAIN PROFILE */}
+          <Box sx={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 2 }}>
+            <Card sx={{ position: 'relative' }}>
+              <CardContent>
+                <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 2 }}>
+                  <Paper sx={{ p: 3, borderRadius: 4, bgcolor: theme.palette.custom.accent, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <ShieldIcon sx={{ fontSize: theme.customSizes.font.h1, color: theme.palette.custom.accentDark }} />
+                  </Paper>
+                  <Chip label="Perfil Principal Acivado" color="success" />
+                </Box>
+                <Box mt={10}>
+                  <Typography variant="h3" sx={{ color: theme.palette.text.primary, fontWeight: 'bold' }}>
+                    Perfil Principal
+                  </Typography>
+                  <Typography variant='h6' sx={{ maxWidth: '50%', wordBreak: 'break-word', mt: 2 }}>
+                    Este es el perfil configurado para situaciones de emergencia críticas. Incluye contactos de red primaria.
+                  </Typography>
+                </Box>
+              </CardContent>
+              <Divider sx={{ borderColor: theme.palette.custom.neutralLight, }} />
+              <CardActionArea sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', p: 2 }}>
+                <Box>
+                  <Button variant='text' sx={{ color: theme.palette.custom.accentDark, gap: 1 }}>
+                    <EditIcon />
+                    <span>Editar</span>
+                  </Button>
+                  <Button variant='text' sx={{ color: theme.palette.custom.neutralDark, gap: 1 }}>
+                    <ShareIcon />
+                    <span>Compartir</span>
+                  </Button>
+                </Box>
+                <Typography>
+                  ULTIMA MODIFICACION: {new Date().toLocaleDateString()}
+                </Typography>
+              </CardActionArea>
+            </Card>
+
+            {/* QR INFORMATION AND BAND ID */}
+            <Card sx={{ bgcolor: theme.palette.custom.accentDark }}>
+              <CardContent sx={{ display: 'grid', gridTemplateRows: '1fr 3fr 1fr', gap: 1 }}>
+                <Typography sx={{ color: theme.palette.primary.contrastText, fontWeight: 700, fontSize: theme.customSizes.font.xl, textAlign: 'center' }}>INFORMACION QR</Typography>
+                <Box display='flex' alignItems='center' justifyContent='center'>
+                  <img src={qrCode} alt="QR Code" style={{ borderRadius: '10px', border: '1px solid white' }} />
+                </Box>
+                <Paper sx={{ bgcolor: theme.palette.custom.transparent, p: 2, display: 'flex', gap: 2, flexDirection: 'column', textAlign: 'center' }}>
+                  <Typography sx={{ color: theme.palette.primary.contrastText, fontWeight: 700, fontSize: theme.customSizes.font.small }}>ID BANDA</Typography>
+                  {/* TODO: Add band id, this current one is just for testing */}
+                  <Typography sx={{ color: theme.palette.custom.neutralLight, fontSize: theme.customSizes.font.lg }}>KGD-772-NM</Typography>
+                </Paper>
+              </CardContent>
+            </Card>
+          </Box>
+        </Box>
+
+        {/* <Stack component="section" spacing={2} aria-label="Profiles List">
           {profiles.map((profile) => (
             <UpdateProfile
               key={profile.id}
@@ -225,47 +237,12 @@ export function Dashboard() {
               onSave={(updatedProfile) => updateProfile(updatedProfile)}
             />
           ))}
-        </Stack>
+        </Stack> */}
       </Box>
 
-      {/* Mobile FABs */}
-      {isMobile && (
-        <>
-          <FloatingButton position="bottom-left">
-            <Box
-              component="a"
-              href={`/public/${user?.id}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
-            >
-              <OpenInNewIcon sx={{ color: 'black', fontSize: 22 }} />
-            </Box>
-          </FloatingButton>
-
-          <FloatingButton onClick={() => setShowNewProfileDrawer(true)} position="bottom-center">
-            <AddIcon sx={{ color: 'black', fontSize: 26 }} />
-          </FloatingButton>
-        </>
-      )}
-
-      <FloatingButton
-        onClick={() => {
-          generateQR()
-          setShowQRModal(true)
-        }}
-      >
-        <QrCode2Icon sx={{ color: 'black', fontSize: 30 }} />
-      </FloatingButton>
-
-      {/* QR Modal */}
-      <Modal isOpen={showQRModal} onClose={() => setShowQRModal(false)} title="Tu Código QR">
-        <QR qrCode={qrCode} />
-      </Modal>
-
-      {/* New Profile Drawer */}
+      {/* Profile Drawer */}
       <SideDrawer isOpen={showNewProfileDrawer} onClose={() => setShowNewProfileDrawer(false)} title="Nuevo Perfil">
-        <CreateProfile
+        <Profile
           onSave={(newProfile: ProfileType) => {
             createProfile(newProfile)
             setShowNewProfileDrawer(false)

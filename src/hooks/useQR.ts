@@ -11,7 +11,7 @@ export const useQR = () => {
 
     const url = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(
       `${window.location.origin}/public/${targetId}`
-    )}&size=${200}x${200}&bgcolor=ffffff`
+    )}&size=${200}x${200}&margin=20&bgcolor=ffffff&format=png&ecc=L`
 
     setQrCode(url)
     return url

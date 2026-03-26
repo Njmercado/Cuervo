@@ -23,6 +23,7 @@ declare module '@mui/material/styles' {
       neutralMedium: string;
       neutralDark: string;
       accent: string;
+      accentDark: string;
       accentGlow: string;
       transparent: string;
     }
@@ -123,6 +124,7 @@ const lightTheme = createTheme({
       neutralMedium: '#A0A0A5',
       neutralDark: '#333333',
       accent: '#00C853',
+      accentDark: '#006E2A',
       accentGlow: '0 4px 20px rgba(0, 200, 83, 0.2)',
       transparent: 'rgba(255, 255, 255, 0.1)',
     }

@@ -15,13 +15,11 @@ import {
   Card,
 } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import MedicalServicesIcon from '@mui/icons-material/MedicalServices'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
 import MailOutlineIcon from '@mui/icons-material/MailOutline'
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
 import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined'
 import ShieldIcon from '@mui/icons-material/Shield'
-import BoltIcon from '@mui/icons-material/Bolt'
 import LoginIcon from '@mui/icons-material/Login'
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt'
 
@@ -31,7 +29,10 @@ export function SignUp() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-  const [acceptedTerms, setAcceptedTerms] = useState(false)
+
+  // TODO: Uncomment when terms and conditions are ready
+  // const [acceptedTerms, setAcceptedTerms] = useState(false)
+
   const [error, setError] = useState<string | null>(null)
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -45,11 +46,12 @@ export function SignUp() {
       return
     }
 
-    if (!acceptedTerms) {
-      setError('Debes aceptar los términos de servicio')
-      setLoading(false)
-      return
-    }
+    // TODO: Uncomment when terms and conditions are ready
+    // if (!acceptedTerms) {
+    //   setError('Debes aceptar los términos de servicio')
+    //   setLoading(false)
+    //   return
+    // }
 
     try {
       const { error } = await supabase.auth.signUp({
@@ -276,8 +278,8 @@ export function SignUp() {
               {/* TODO: Add terms and conditions */}
               <Box sx={{ display: 'none', alignItems: 'flex-start', gap: 1, mt: 1 }}>
                 <Checkbox
-                  checked={acceptedTerms}
-                  onChange={(e) => setAcceptedTerms(e.target.checked)}
+                  checked={false}
+                  onChange={() => { }}
                   sx={{ p: 0, '& .MuiSvgIcon-root': { fontSize: 20, color: '#ccc' }, '&.Mui-checked': { color: '#00C853' } }}
                 />
                 <Typography sx={{ fontSize: 12, color: '#666', lineHeight: 1.4 }}>
