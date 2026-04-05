@@ -46,7 +46,7 @@ export function UpdateProfile({
         borderColor: localProfile.chosen ? (theme) => alpha(theme.palette.warning.main, 0.5) : 'divider',
         borderRadius: 2,
         overflow: 'hidden',
-        boxShadow: localProfile.chosen ? (theme) => theme.palette.custom.accentGlow : 'none',
+        boxShadow: localProfile.chosen ? '0 4px 20px rgba(0, 200, 83, 0.2)' : 'none',
         transition: 'all 0.3s ease',
       }}
     >

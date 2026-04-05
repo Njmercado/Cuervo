@@ -52,7 +52,7 @@ export function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
         component="section"
         aria-label="Profile Metadata"
         sx={{
-          bgcolor: (theme) => theme.palette.custom.glassBg,
+          bgcolor: (theme) => theme.palette.custom.neutral[70],
           p: 3,
           borderRadius: 2,
           display: 'flex',
@@ -169,7 +169,7 @@ export function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
               },
               transition: 'background-color 0.3s ease',
               border: '1px solid',
-              borderColor: theme.palette.custom.errorBorder,
+              borderColor: theme.palette.custom.tertiary[20],
               borderRadius: 2,
               p: 3,
               mt: 3,

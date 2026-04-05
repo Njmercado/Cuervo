@@ -126,7 +126,7 @@ export function SignUp() {
           }}>
             <Typography variant="h2" sx={{ fontWeight: 900, fontSize: 48, lineHeight: 1.1, mb: 3, letterSpacing: '-0.02em' }}>
               Precisión<br />
-              <Box component="span" sx={{ color: theme => theme.palette.custom.accent }}>Quirúrgica</Box><br />
+              <Box component="span" sx={{ color: theme => theme.palette.custom.secondary[100] }}>Quirúrgica</Box><br />
               en cada dato.
             </Typography>
 
@@ -139,8 +139,8 @@ export function SignUp() {
 
             {/* Bottom feature pills */}
             <Box sx={{ display: 'flex', gap: 2 }}>
-              <Box sx={{ bgcolor: theme => theme.palette.custom.transparent, p: 2, borderRadius: 2, width: '50%' }}>
-                <ShieldIcon sx={{ mb: 1, color: theme => theme.palette.custom.accent }} />
+              <Box sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)', p: 2, borderRadius: 2, width: '50%' }}>
+                <ShieldIcon sx={{ mb: 1, color: theme => theme.palette.custom.secondary[100] }} />
                 <Typography sx={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.05em', opacity: 0.8, mb: 0.5 }}>PROTOCOLO</Typography>
                 <Typography sx={{ fontSize: 14, fontWeight: 800 }}>Cifrado</Typography>
               </Box>
@@ -157,7 +157,7 @@ export function SignUp() {
           }}>
 
             <Box sx={{ mb: 4 }}>
-              <Box sx={{ display: 'inline-block', bgcolor: theme => theme.palette.custom.neutralLight, px: 1.5, py: 0.5, borderRadius: 1, mb: 2 }}>
+              <Box sx={{ display: 'inline-block', bgcolor: theme => theme.palette.custom.neutral[100], px: 1.5, py: 0.5, borderRadius: 1, mb: 2 }}>
                 <Typography
                   sx={{
                     color: theme => theme.palette.primary.main,
@@ -190,7 +190,7 @@ export function SignUp() {
             <Box component="form" onSubmit={handleSignUp} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
 
               {error && (
-                <Alert severity="error" sx={{ bgcolor: (theme) => theme.palette.custom?.errorBg || 'error.light', color: (theme) => theme.palette.custom?.errorLight || 'error.main' }}>
+                <Alert severity="error" sx={{ bgcolor: (theme) => theme.palette.custom?.tertiary[5] || 'error.light', color: (theme) => theme.palette.custom?.tertiary[100] || 'error.main' }}>
                   {error}
                 </Alert>
               )}
@@ -302,7 +302,7 @@ export function SignUp() {
 
               {/* DESKTOP ONLY: Login link below form */}
               <Box sx={{ display: { xs: 'none', md: 'flex' }, justifyContent: 'center', mt: 4 }}>
-                <Typography sx={{ fontSize: 14, color: theme => theme.palette.custom?.neutralDark }}>
+                <Typography sx={{ fontSize: 14, color: 'text.primary' }}>
                   Already have an account?{' '}
                   <Link to="/login"> LOGIN </Link>
                 </Typography>

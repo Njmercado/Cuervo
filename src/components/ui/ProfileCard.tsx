@@ -75,8 +75,8 @@ export function ProfileCard({ profile, onEdit, onDelete, onSelect }: ProfileCard
       <CardContent>
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', gap: 2 }}>
           <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 2 }}>
-            <Paper sx={{ p: 3, borderRadius: 4, bgcolor: theme.palette.custom.accent, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-              <ShieldIcon sx={{ fontSize: theme.customSizes.font.h1, color: theme.palette.custom.accentDark }} />
+            <Paper sx={{ p: 3, borderRadius: 4, bgcolor: theme.palette.custom.secondary[100], display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              <ShieldIcon sx={{ fontSize: theme.customSizes.font.h1, color: theme.palette.custom.primary[100] }} />
             </Paper>
             <Box>
               {options()}

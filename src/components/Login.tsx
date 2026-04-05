@@ -107,8 +107,8 @@ export function Login() {
               <Alert
                 severity="error"
                 sx={{
-                  bgcolor: (theme) => theme.palette.custom?.errorBg || 'error.light',
-                  color: (theme) => theme.palette.custom?.errorLight || 'error.main',
+                  bgcolor: (theme) => theme.palette.custom?.tertiary[5] || 'error.light',
+                  color: (theme) => theme.palette.custom?.tertiary[100] || 'error.main',
                 }}
               >
                 {error}

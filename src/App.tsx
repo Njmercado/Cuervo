@@ -2,30 +2,34 @@ import { Routes, Route } from 'react-router-dom'
 import { Login } from './components/Login'
 import { SignUp } from './components/SignUp'
 import { Dashboard } from './components/Dashboard'
-import { AuthProvider, useAuth } from './contexts/AuthContext'
+import { AuthProvider } from './contexts/AuthContext'
 import { Public } from './components/Public'
 import { Toaster } from 'react-hot-toast'
-import { ThemeProvider, createTheme, CircularProgress, Box } from '@mui/material'
+import { ThemeProvider, createTheme, } from '@mui/material'
+import { ProtectedRoute } from './utils/protectedRoute'
 
 declare module '@mui/material/styles' {
   interface Palette {
     custom: {
-      glassBg: string;
-      glassBorder: string;
-      glassHoverBg: string;
-      glassHoverBorder: string;
-      glassFocusBorder: string;
-      glowShadow: string;
-      errorBg: string;
-      errorBorder: string;
-      errorLight: string;
-      neutralLight: string;
-      neutralMedium: string;
-      neutralDark: string;
-      accent: string;
-      accentDark: string;
-      accentGlow: string;
-      transparent: string;
+      primary: {
+        100: string;
+        30: string;
+        20: string;
+        10: string;
+      };
+      secondary: {
+        100: string;
+      };
+      tertiary: {
+        100: string;
+        20: string;
+        5: string;
+      };
+      neutral: {
+        100: string;
+        90: string;
+        70: string;
+      };
     }
   }
   interface PaletteOptions {
@@ -111,22 +115,25 @@ const lightTheme = createTheme({
       main: '#C62828',
     },
     custom: {
-      glassBg: 'rgba(238, 238, 240, 0.7)',
-      glassBorder: 'rgba(0, 110, 42, 0.1)',
-      glassHoverBg: 'rgba(238, 238, 240, 0.9)',
-      glassHoverBorder: 'rgba(0, 110, 42, 0.2)',
-      glassFocusBorder: 'rgba(0, 110, 42, 0.3)',
-      glowShadow: '0 4px 20px rgba(0, 110, 42, 0.15)',
-      errorBg: 'rgba(198, 40, 40, 0.05)',
-      errorBorder: 'rgba(198, 40, 40, 0.2)',
-      errorLight: '#C62828',
-      neutralLight: '#EEEEF0',
-      neutralMedium: '#A0A0A5',
-      neutralDark: '#333333',
-      accent: '#00C853',
-      accentDark: '#006E2A',
-      accentGlow: '0 4px 20px rgba(0, 200, 83, 0.2)',
-      transparent: 'rgba(255, 255, 255, 0.1)',
+      primary: {
+        100: 'rgba(0, 110, 42, 1)',
+        30: 'rgba(0, 110, 42, 0.3)',
+        20: 'rgba(0, 110, 42, 0.2)',
+        10: 'rgba(0, 110, 42, 0.1)',
+      },
+      secondary: {
+        100: 'rgba(0, 200, 83, 1)',
+      },
+      tertiary: {
+        100: 'rgba(198, 40, 40, 1)',
+        20: 'rgba(198, 40, 40, 0.2)',
+        5: 'rgba(198, 40, 40, 0.05)',
+      },
+      neutral: {
+        100: 'rgba(238, 238, 240, 1)',
+        90: 'rgba(238, 238, 240, 0.9)',
+        70: 'rgba(238, 238, 240, 0.7)',
+      },
     }
   },
   typography: {
@@ -271,32 +278,6 @@ const lightTheme = createTheme({
   },
 })
 
-function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { session, loading } = useAuth()
-
-  if (loading) {
-    return (
-      <Box
-        sx={{
-          minHeight: '100vh',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          bgcolor: 'background.default',
-        }}
-      >
-        <CircularProgress color="primary" />
-      </Box>
-    )
-  }
-
-  if (!session) {
-    return <Login />
-  }
-
-  return <>{children}</>
-}
-
 function App() {
   return (
     <ThemeProvider theme={lightTheme}>
@@ -323,7 +304,7 @@ function App() {
           <Route path="/" element={<Login />} />
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<SignUp />} />
-          <Route path="/dashboard" element={
+          <Route path="/dashboard/*" element={
             <ProtectedRoute>
               <Dashboard />
             </ProtectedRoute>

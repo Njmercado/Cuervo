@@ -16,8 +16,8 @@ export function ProfileChosenCard({ profile, onEdit, onShare }: ProfileChosenCar
     <Card>
       <CardContent>
         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 2 }}>
-          <Paper sx={{ p: 3, borderRadius: 4, bgcolor: theme.palette.custom.accent, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-            <ShieldIcon sx={{ fontSize: theme.customSizes.font.h1, color: theme.palette.custom.accentDark }} />
+          <Paper sx={{ p: 3, borderRadius: 4, bgcolor: theme.palette.custom.secondary[100], display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <ShieldIcon sx={{ fontSize: theme.customSizes.font.h1, color: theme.palette.custom.primary[100] }} />
           </Paper>
           <Chip label="Perfil Principal Acivado" color="success" />
         </Box>
@@ -30,14 +30,14 @@ export function ProfileChosenCard({ profile, onEdit, onShare }: ProfileChosenCar
           </Typography>
         </Box>
       </CardContent>
-      <Divider sx={{ borderColor: theme.palette.custom.neutralLight, }} />
+      <Divider sx={{ borderColor: theme.palette.custom.neutral[100], }} />
       <CardActionArea sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', p: 2 }}>
         <Box>
-          <Button variant='text' sx={{ color: theme.palette.custom.accentDark, gap: 1 }} onClick={() => onEdit(profile)}>
+          <Button variant='text' sx={{ color: theme.palette.custom.primary[100], gap: 1 }} onClick={() => onEdit(profile)}>
             <EditIcon />
             <span>Editar</span>
           </Button>
-          <Button variant='text' sx={{ color: theme.palette.custom.neutralDark, gap: 1 }} onClick={() => onShare(profile.user_id || '')}>
+          <Button variant='text' sx={{ color: 'text.primary', gap: 1 }} onClick={() => onShare(profile.user_id || '')}>
             <ShareIcon />
             <span>Compartir</span>
           </Button>
