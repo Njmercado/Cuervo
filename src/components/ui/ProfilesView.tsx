@@ -100,8 +100,55 @@ export function ProfilesView() {
   const mainProfile = profiles.find((p) => p.chosen);
   const otherProfiles = profiles.filter((p) => !p.chosen);
 
-  if (profiles.length === 0 || !mainProfile || !otherProfiles) {
-    return <EmptyProfile />
+  const profilesContent = () => {
+    return (
+      <>
+        {/* MAIN PROFILE */}
+        <Box sx={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 2 }}>
+          <ProfileChosenCard
+            profile={mainProfile ?? {} as ProfileType}
+            onEdit={(profile: ProfileType) => {
+              setEditingProfile(profile)
+              setOpenProfileDrawer(true)
+            }}
+            onShare={(id: string) => {
+              handleShareProfile(id)
+            }}
+          />
+
+          {/* QR INFORMATION AND BAND ID */}
+          <Card sx={{ bgcolor: theme.palette.custom.primary[100] }}>
+            <CardContent sx={{ display: 'grid', gridTemplateRows: '1fr 3fr 1fr', gap: 1 }}>
+              <Typography sx={{ color: theme.palette.primary.contrastText, fontWeight: 700, fontSize: theme.customSizes.font.xl, textAlign: 'center' }}>INFORMACION QR</Typography>
+              <Box display='flex' alignItems='center' justifyContent='center'>
+                <img src={qrCode} alt="QR Code" style={{ borderRadius: '10px', border: '1px solid white' }} />
+              </Box>
+              <Paper sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)', p: 2, display: 'flex', gap: 2, flexDirection: 'column', textAlign: 'center' }}>
+                <Typography sx={{ color: theme.palette.primary.contrastText, fontWeight: 700, fontSize: theme.customSizes.font.small }}>ID BANDA</Typography>
+                {/* TODO: Add band id, this current one is just for testing */}
+                <Typography sx={{ color: theme.palette.custom.neutral[100], fontSize: theme.customSizes.font.lg }}>KGD-772-NM</Typography>
+              </Paper>
+            </CardContent>
+          </Card>
+        </Box>
+
+        <Grid container columns={12} spacing={2} aria-label="Profiles List" mt={4}>
+          {otherProfiles.map((profile) => (
+            <Grid key={profile.id} size={{ xs: 12, sm: 6, md: 4, lg: 6 }}>
+              <ProfileCard
+                profile={profile}
+                onEdit={(profile: ProfileType) => {
+                  setEditingProfile(profile)
+                  setOpenProfileDrawer(true)
+                }}
+                onDelete={(id: string) => handleDeleteProfile(id)}
+                onSelect={(id: string) => handleUpdateChosenStatus(id)}
+              />
+            </Grid>
+          ))}
+        </Grid>
+      </>
+    )
   }
 
   return (
@@ -121,53 +168,13 @@ export function ProfilesView() {
           {createNewProfileButton()}
         </Box>
 
-        {/* Profile content*/}
-        <Box>
-          {/* MAIN PROFILE */}
-          <Box sx={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: 2 }}>
-            <ProfileChosenCard
-              profile={mainProfile}
-              onEdit={(profile: ProfileType) => {
-                setEditingProfile(profile)
-                setOpenProfileDrawer(true)
-              }}
-              onShare={(id: string) => {
-                handleShareProfile(id)
-              }}
-            />
-
-            {/* QR INFORMATION AND BAND ID */}
-            <Card sx={{ bgcolor: theme.palette.custom.primary[100] }}>
-              <CardContent sx={{ display: 'grid', gridTemplateRows: '1fr 3fr 1fr', gap: 1 }}>
-                <Typography sx={{ color: theme.palette.primary.contrastText, fontWeight: 700, fontSize: theme.customSizes.font.xl, textAlign: 'center' }}>INFORMACION QR</Typography>
-                <Box display='flex' alignItems='center' justifyContent='center'>
-                  <img src={qrCode} alt="QR Code" style={{ borderRadius: '10px', border: '1px solid white' }} />
-                </Box>
-                <Paper sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)', p: 2, display: 'flex', gap: 2, flexDirection: 'column', textAlign: 'center' }}>
-                  <Typography sx={{ color: theme.palette.primary.contrastText, fontWeight: 700, fontSize: theme.customSizes.font.small }}>ID BANDA</Typography>
-                  {/* TODO: Add band id, this current one is just for testing */}
-                  <Typography sx={{ color: theme.palette.custom.neutral[100], fontSize: theme.customSizes.font.lg }}>KGD-772-NM</Typography>
-                </Paper>
-              </CardContent>
-            </Card>
-          </Box>
-        </Box>
-
-        <Grid container columns={12} spacing={2} aria-label="Profiles List" mt={4}>
-          {otherProfiles.map((profile) => (
-            <Grid key={profile.id} size={{ xs: 12, sm: 6, md: 4, lg: 6 }}>
-              <ProfileCard
-                profile={profile}
-                onEdit={(profile: ProfileType) => {
-                  setEditingProfile(profile)
-                  setOpenProfileDrawer(true)
-                }}
-                onDelete={(id: string) => handleDeleteProfile(id)}
-                onSelect={(id: string) => handleUpdateChosenStatus(id)}
-              />
-            </Grid>
-          ))}
-        </Grid>
+        {
+          profiles.length === 0 ? (
+            <EmptyProfile />
+          ) : (
+            profilesContent()
+          )
+        }
       </Box>
 
       {/* Profile Drawer */}

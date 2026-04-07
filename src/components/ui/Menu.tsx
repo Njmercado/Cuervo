@@ -41,6 +41,11 @@ export function Menu() {
       action: () => { navigate('/dashboard/sos-contact') }
     },
     {
+      label: 'Condiciones',
+      icon: <PersonIcon />,
+      action: () => { navigate('/dashboard/conditions') }
+    },
+    {
       label: 'Historial de Emergencias',
       icon: <PersonIcon />,
       action: () => { navigate('/dashboard/emergency-history') }

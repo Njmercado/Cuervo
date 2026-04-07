@@ -1,13 +1,14 @@
 import { useState } from 'react'
 import { Menu } from './ui/Menu'
 import { SideDrawer } from './ui/SideDrawer'
-import { Box, IconButton, Typography } from '@mui/material'
+import { Box, IconButton } from '@mui/material'
 import MenuIcon from '@mui/icons-material/Menu'
 import { useTheme } from '@mui/material/styles'
 import { useMediaQuery } from '@mui/material'
 import { Routes, Route } from 'react-router-dom'
 import { SOSContact } from './SOSContact'
 import { ProfilesView } from './ui/ProfilesView'
+import { Conditions } from './Conditions'
 
 export function Dashboard() {
   const [openMenu, setOpenMenu] = useState(false)
@@ -39,6 +40,10 @@ export function Dashboard() {
           <Route
             path="/sos-contact"
             element={<SOSContact />}
+          />
+          <Route
+            path="/conditions"
+            element={<Conditions />}
           />
         </Routes>
       </Box>
