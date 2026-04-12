@@ -1,11 +1,11 @@
-import { useAuth } from '../../contexts/AuthContext'
-import { useProfiles } from '../../hooks/useProfiles'
-import { type Profile as ProfileType } from '../../objects/profile'
+import { useAuth } from '../contexts/AuthContext'
+import { useProfiles } from '../hooks/useProfiles'
+import { type Profile as ProfileType } from '../objects/profile'
 import { useEffect, useState } from 'react'
-import { Profile } from './Profile'
+import { Profile } from './ui/Profile'
 import toast from 'react-hot-toast'
-import { SideDrawer } from './SideDrawer'
-import { ProfileCard } from './ProfileCard'
+import { SideDrawer } from './ui/SideDrawer'
+import { ProfileCard } from './ui/ProfileCard'
 import {
   Box,
   Button,
@@ -17,10 +17,10 @@ import {
   Grid,
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
-import { useQR } from '../../hooks/useQR'
-import { EmptyProfile } from './EmptyProfiles'
-import { ProfileChosenCard } from './ProfileChosenCard'
-import { useGetProfiles, useCreateProfile, useUpdateProfile, useUpdateChosenStatus, useDeleteProfile } from '../../api'
+import { useQR } from '../hooks/useQR'
+import { ProfileChosenCard } from './ui/ProfileChosenCard'
+import { useGetProfiles, useCreateProfile, useUpdateProfile, useUpdateChosenStatus, useDeleteProfile } from '../api'
+import { EmptyState } from './ui/EmptyState'
 
 export function ProfilesView() {
   const [openProfileDrawer, setOpenProfileDrawer] = useState(false)
@@ -170,7 +170,11 @@ export function ProfilesView() {
 
         {
           profiles.length === 0 ? (
-            <EmptyProfile />
+            <EmptyState
+              title="No tienes perfiles creados"
+              description="Agrega tu primer perfil para mantener tu información actualizada"
+              color={theme.palette.custom.primary[30]}
+            />
           ) : (
             profilesContent()
           )

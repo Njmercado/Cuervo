@@ -20,7 +20,7 @@ vi.mock('../FormInput', () => ({
 const mockCondition: Condition = {
   id: 'cond-1',
   title: 'Asma',
-  medicine: ['Salbutamol'],
+  medicines: ['Salbutamol'],
   user_id: 'user-123',
 }
 
@@ -54,7 +54,7 @@ describe('ConditionForm', () => {
     render(<ConditionForm onSave={onSave} onCancel={onCancel} />)
     fireEvent.change(screen.getByTestId('input-Título'), { target: { value: 'Hipertensión' } })
     fireEvent.submit(screen.getByTestId('input-Título').closest('form')!)
-    expect(onSave).toHaveBeenCalledWith({ title: 'Hipertensión', medicine: [] })
+    expect(onSave).toHaveBeenCalledWith({ title: 'Hipertensión', medicines: [] })
     expect(onSave).not.toHaveBeenCalledWith(expect.objectContaining({ id: expect.anything() }))
   })
 

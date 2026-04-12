@@ -1,0 +1,15 @@
+export const RELATIONSHIP_OPTIONS = [
+  'Padre',
+  'Madre',
+  'Hijo/a',
+  'Hermano/a',
+  'Esposo/a',
+  'Pareja',
+  'Abuelo/a',
+  'Tío/a',
+  'Primo/a',
+  'Amigo/a',
+  'Vecino/a',
+  'Compañero/a de trabajo',
+  'Otro',
+]

@@ -24,7 +24,7 @@ vi.mock('@mui/material/styles', async (importOriginal) => {
 const mockCondition: Condition = {
   id: 'cond-1',
   title: 'Diabetes',
-  medicine: ['Metformina', 'Insulina'],
+  medicines: ['Metformina', 'Insulina'],
   created_at: '2024-01-15T00:00:00Z',
   user_id: 'user-123',
 }

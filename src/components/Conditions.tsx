@@ -14,6 +14,7 @@ import { ConditionCard } from './ui/ConditionCard'
 import { ConditionForm } from './ui/ConditionForm'
 import { useGetMedicalConditions, useCreateMedicalCondition, useUpdateMedicalCondition, useDeleteMedicalCondition } from '../api'
 import type { Condition, ConditionData } from '../objects/condition'
+import { EmptyState } from './ui/EmptyState'
 
 export function Conditions() {
   const theme = useTheme()
@@ -105,26 +106,11 @@ export function Conditions() {
 
         {/* Content */}
         {conditions.length === 0 ? (
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-              justifyContent: 'center',
-              height: 300,
-              gap: 2,
-              border: `2px dashed ${theme.palette.custom.primary[30]}`,
-              borderRadius: theme.customSizes.radius.lg,
-              color: 'text.secondary',
-            }}
-          >
-            <Typography variant="h6" color="text.secondary">
-              No tienes condiciones médicas registradas
-            </Typography>
-            <Typography variant="body2" color="text.disabled">
-              Agrega tu primera condición para mantener tu perfil de emergencia actualizado
-            </Typography>
-          </Box>
+          <EmptyState
+            title="No tienes condiciones médicas registradas"
+            description="Agrega tu primera condición médica para mantener tu perfil de emergencia actualizado"
+            color={theme.palette.custom.primary[30]}
+          />
         ) : (
           <Grid container columns={12} spacing={2}>
             {conditions.map((condition) => (

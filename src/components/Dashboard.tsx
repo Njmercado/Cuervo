@@ -6,8 +6,8 @@ import MenuIcon from '@mui/icons-material/Menu'
 import { useTheme } from '@mui/material/styles'
 import { useMediaQuery } from '@mui/material'
 import { Routes, Route } from 'react-router-dom'
-import { SOSContact } from './SOSContact'
-import { ProfilesView } from './ui/ProfilesView'
+import { SOSContacts } from './SOSContact'
+import { ProfilesView } from './ProfilesView'
 import { Conditions } from './Conditions'
 
 export function Dashboard() {
@@ -39,7 +39,7 @@ export function Dashboard() {
           <Route path="/" element={<ProfilesView />} />
           <Route
             path="/sos-contact"
-            element={<SOSContact />}
+            element={<SOSContacts />}
           />
           <Route
             path="/conditions"

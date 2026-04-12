@@ -13,6 +13,7 @@ import {
   Checkbox,
   InputAdornment,
   Card,
+  useTheme,
 } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import PersonOutlineIcon from '@mui/icons-material/PersonOutline'
@@ -22,13 +23,19 @@ import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined'
 import ShieldIcon from '@mui/icons-material/Shield'
 import LoginIcon from '@mui/icons-material/Login'
 import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt'
+import { useNavigate } from 'react-router-dom'
+import { useCreateUser } from '../api'
 
 export function SignUp() {
+  const navigate = useNavigate()
+  const theme = useTheme()
   const [loading, setLoading] = useState(false)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+
+  const { createUser } = useCreateUser()
 
   // TODO: Uncomment when terms and conditions are ready
   // const [acceptedTerms, setAcceptedTerms] = useState(false)
@@ -54,14 +61,34 @@ export function SignUp() {
     // }
 
     try {
-      const { error } = await supabase.auth.signUp({
+      const { error, data } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          data: { display_name: name },
+          data: { display_name: name, phone_number: '1025' },
         },
       })
       if (error) throw error
+
+      if (!data.user?.id) {
+        throw new Error('User creation failed: No user ID returned')
+      }
+
+      const { error: loginError } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      })
+      if (loginError) throw loginError
+
+      await createUser({
+        user_id: data.user.id,
+        name: name.split(' ')[0],
+        last_name: name.split(' ')[1] || '',
+        full_name: name,
+      })
+
+      toast.success('User created successfully')
+      navigate('/dashboard')
     } catch (err) {
       const message = err instanceof Error ? err.message : 'An error occurred'
       setError(message)
@@ -84,7 +111,7 @@ export function SignUp() {
       }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
           {/* here should be the Logo */}
-          <Typography sx={{ fontWeight: 900, color: '#006E2A', fontSize: theme => theme.customSizes.font.lg }}>
+          <Typography sx={{ fontWeight: 900, color: theme.palette.primary.main, fontSize: theme.customSizes.font.lg }}>
             QUIENES
           </Typography>
         </Box>
@@ -118,7 +145,7 @@ export function SignUp() {
             display: { xs: 'none', md: 'flex' },
             flexDirection: 'column',
             width: '50%',
-            bgcolor: '#006E2A',
+            bgcolor: theme.palette.primary.main,
             p: 6,
             position: 'relative',
             color: 'white',
@@ -126,7 +153,7 @@ export function SignUp() {
           }}>
             <Typography variant="h2" sx={{ fontWeight: 900, fontSize: 48, lineHeight: 1.1, mb: 3, letterSpacing: '-0.02em' }}>
               Precisión<br />
-              <Box component="span" sx={{ color: theme => theme.palette.custom.secondary[100] }}>Quirúrgica</Box><br />
+              <Box component="span" sx={{ color: theme.palette.custom.secondary[100] }}>Quirúrgica</Box><br />
               en cada dato.
             </Typography>
 
@@ -140,7 +167,7 @@ export function SignUp() {
             {/* Bottom feature pills */}
             <Box sx={{ display: 'flex', gap: 2 }}>
               <Box sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)', p: 2, borderRadius: 2, width: '50%' }}>
-                <ShieldIcon sx={{ mb: 1, color: theme => theme.palette.custom.secondary[100] }} />
+                <ShieldIcon sx={{ mb: 1, color: theme.palette.custom.secondary[100] }} />
                 <Typography sx={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.05em', opacity: 0.8, mb: 0.5 }}>PROTOCOLO</Typography>
                 <Typography sx={{ fontSize: 14, fontWeight: 800 }}>Cifrado</Typography>
               </Box>
@@ -157,11 +184,11 @@ export function SignUp() {
           }}>
 
             <Box sx={{ mb: 4 }}>
-              <Box sx={{ display: 'inline-block', bgcolor: theme => theme.palette.custom.neutral[100], px: 1.5, py: 0.5, borderRadius: 1, mb: 2 }}>
+              <Box sx={{ display: 'inline-block', bgcolor: theme.palette.custom.neutral[100], px: 1.5, py: 0.5, borderRadius: 1, mb: 2 }}>
                 <Typography
                   sx={{
-                    color: theme => theme.palette.primary.main,
-                    fontSize: theme => theme.customSizes.font.tiny,
+                    color: theme.palette.primary.main,
+                    fontSize: theme.customSizes.font.tiny,
                     fontWeight: 800,
                   }}>
                   MÓDULO DE REGISTRO
@@ -171,8 +198,8 @@ export function SignUp() {
                 variant="h3"
                 sx={{
                   fontWeight: 800,
-                  color: theme => theme.palette.text.primary,
-                  fontSize: { xs: theme => theme.customSizes.font.h3, sm: theme => theme.customSizes.font.h2 },
+                  color: theme.palette.text.primary,
+                  fontSize: { xs: theme.customSizes.font.h3, sm: theme.customSizes.font.h2 },
                   mb: 1,
                   letterSpacing: '-0.04em'
                 }}>
@@ -180,8 +207,8 @@ export function SignUp() {
               </Typography>
               <Typography
                 sx={{
-                  color: theme => theme.palette.text.secondary,
-                  fontSize: theme => theme.customSizes.font.base
+                  color: theme.palette.text.secondary,
+                  fontSize: theme.customSizes.font.base
                 }}>
                 Complete sus credenciales para acceder al sistema.
               </Typography>
@@ -190,7 +217,7 @@ export function SignUp() {
             <Box component="form" onSubmit={handleSignUp} sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
 
               {error && (
-                <Alert severity="error" sx={{ bgcolor: (theme) => theme.palette.custom?.tertiary[5] || 'error.light', color: (theme) => theme.palette.custom?.tertiary[100] || 'error.main' }}>
+                <Alert severity="error" sx={{ bgcolor: theme.palette.custom.tertiary[5] || 'error.light', color: theme.palette.custom.tertiary[100] || 'error.main' }}>
                   {error}
                 </Alert>
               )}
@@ -208,7 +235,7 @@ export function SignUp() {
                   autoComplete="name"
                   slotProps={{
                     input: {
-                      startAdornment: <InputAdornment position="start"><PersonOutlineIcon sx={{ color: '#999', fontSize: 20 }} /></InputAdornment>,
+                      startAdornment: <InputAdornment position="start"><PersonOutlineIcon sx={{ color: 'text.disabled', fontSize: 20 }} /></InputAdornment>,
                     }
                   }}
                 />
@@ -228,7 +255,7 @@ export function SignUp() {
                   autoComplete="email"
                   slotProps={{
                     input: {
-                      startAdornment: <InputAdornment position="start"><MailOutlineIcon sx={{ color: '#999', fontSize: 20 }} /></InputAdornment>,
+                      startAdornment: <InputAdornment position="start"><MailOutlineIcon sx={{ color: 'text.disabled', fontSize: 20 }} /></InputAdornment>,
                     }
                   }}
                 />
@@ -249,7 +276,7 @@ export function SignUp() {
                     autoComplete="new-password"
                     slotProps={{
                       input: {
-                        startAdornment: <InputAdornment position="start"><LockOutlinedIcon sx={{ color: '#999', fontSize: 20 }} /></InputAdornment>,
+                        startAdornment: <InputAdornment position="start"><LockOutlinedIcon sx={{ color: 'text.disabled', fontSize: 20 }} /></InputAdornment>,
                       }
                     }}
                   />
@@ -267,7 +294,7 @@ export function SignUp() {
                     autoComplete="new-password"
                     slotProps={{
                       input: {
-                        startAdornment: <InputAdornment position="start"><VerifiedUserOutlinedIcon sx={{ color: '#999', fontSize: 20 }} /></InputAdornment>,
+                        startAdornment: <InputAdornment position="start"><VerifiedUserOutlinedIcon sx={{ color: 'text.disabled', fontSize: 20 }} /></InputAdornment>,
                       }
                     }}
                   />
@@ -280,10 +307,10 @@ export function SignUp() {
                 <Checkbox
                   checked={false}
                   onChange={() => { }}
-                  sx={{ p: 0, '& .MuiSvgIcon-root': { fontSize: 20, color: '#ccc' }, '&.Mui-checked': { color: '#00C853' } }}
+                  sx={{ p: 0, '& .MuiSvgIcon-root': { fontSize: 20, color: 'text.disabled' }, '&.Mui-checked': { color: theme.palette.secondary.main } }}
                 />
-                <Typography sx={{ fontSize: 12, color: '#666', lineHeight: 1.4 }}>
-                  Acepto los <Typography component="span" sx={{ fontSize: 12, fontWeight: 700, color: '#006E2A' }}>Términos de Servicio</Typography> y la <Typography component="span" sx={{ fontSize: 12, fontWeight: 700, color: '#006E2A' }}>Política de Privacidad</Typography> de QuienEs.
+                <Typography sx={{ fontSize: 12, color: theme.palette.text.secondary, lineHeight: 1.4 }}>
+                  Acepto los <Typography component="span" sx={{ fontSize: 12, fontWeight: 700, color: theme.palette.primary.main }}>Términos de Servicio</Typography> y la <Typography component="span" sx={{ fontSize: 12, fontWeight: 700, color: theme.palette.primary.main }}>Política de Privacidad</Typography> de QuienEs.
                 </Typography>
               </Box>
 
@@ -332,7 +359,7 @@ export function SignUp() {
         bottom: 0,
         left: 0,
         right: 0,
-        bgcolor: 'white',
+        bgcolor: 'background.paper',
         boxShadow: '0 -4px 20px rgba(0,0,0,0.05)',
         zIndex: 50
       }}>
@@ -346,9 +373,9 @@ export function SignUp() {
             flexDirection: 'column',
             alignItems: 'center',
             gap: 0.5,
-            color: '#333',
+            color: 'text.primary',
             borderRadius: 0,
-            '&:hover': { bgcolor: '#f5f5f5' }
+            '&:hover': { bgcolor: 'background.default' }
           }}
         >
           <LoginIcon sx={{ fontSize: 20 }} />

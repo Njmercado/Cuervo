@@ -9,7 +9,7 @@ export function useCreateMedicalCondition() {
   const createCondition = async (condition: ConditionData) => {
     const { error } = await supabase.from('MedicalCondition').insert({
       title: condition.title,
-      medicine: condition.medicines,
+      medicines: condition.medicines,
       user_id: user?.id,
     })
 
