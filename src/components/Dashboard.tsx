@@ -9,6 +9,8 @@ import { Routes, Route } from 'react-router-dom'
 import { SOSContacts } from './SOSContact'
 import { ProfilesView } from './ProfilesView'
 import { Conditions } from './Conditions'
+import { Settings } from './Settings'
+import { UnderConstruction } from './ui/UnderConstruction'
 
 export function Dashboard() {
   const [openMenu, setOpenMenu] = useState(false)
@@ -44,6 +46,14 @@ export function Dashboard() {
           <Route
             path="/conditions"
             element={<Conditions />}
+          />
+          <Route
+            path="/settings"
+            element={<Settings />}
+          />
+          <Route
+            path="/emergency-history"
+            element={<UnderConstruction />}
           />
         </Routes>
       </Box>
