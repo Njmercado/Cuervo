@@ -42,7 +42,7 @@ export function ConditionForm({ condition, onSave, onUpdate, onCancel }: Conditi
   }
 
   const handleRemoveMedicine = (med: string) => {
-    setForm({ ...form, medicines: form?.medicines.filter((m) => m !== med) } as Condition)
+    setForm({ ...form, medicines: form?.medicines?.filter((m) => m !== med) || [] } as Condition)
   }
 
   const handleMedicineKeyDown = (e: React.KeyboardEvent) => {

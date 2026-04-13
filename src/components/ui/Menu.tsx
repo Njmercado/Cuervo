@@ -21,8 +21,7 @@ export interface MenuOption {
   action: () => void
 }
 
-export interface MenuProps {
-}
+
 
 export function Menu() {
   const theme = useTheme()

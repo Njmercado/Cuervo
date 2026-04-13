@@ -47,6 +47,9 @@ export function ProfilesView() {
   }, [])
 
   const handleCreateProfile = async (profile: ProfileType) => {
+    if (profiles.length == 0) {
+      profile.chosen = true
+    }
     await createProfile(profile)
     reloadProfiles()
   }

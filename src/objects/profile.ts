@@ -1,25 +1,15 @@
 export interface ProfileData {
-  // Personal Info
-  fullName?: string
-  rh?: string
-  idType?: string
-  idNumber?: string
-  healthInsurance?: string
-  healthInsuranceNumber?: string
-  extraInfo?: string
-
-  // Emergency Info
-  emergencyName?: string
-  emergencyContact?: string
-  emergencyRelationship?: string
+  profile_title: string
+  profile_description: string
+  chosen: boolean
+  medical_conditions: string[] // list of int8 ids
+  sos_contacts: string[] // list of int8 ids
+  insurance_name: string
+  insurance_number: string
 }
 
-export interface Profile {
+export interface Profile extends ProfileData {
   id: string
-  profile_title?: string
-  profile_description?: string
-  data?: ProfileData
-  chosen?: boolean
   created_at?: string
   updated_at?: string
   user_id?: string

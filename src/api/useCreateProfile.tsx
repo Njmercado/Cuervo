@@ -10,7 +10,10 @@ export function useCreateProfile() {
     const { error } = await supabase.from('Profile').insert({
       profile_description: profile.profile_description,
       profile_title: profile.profile_title,
-      data: profile.data,
+      medical_conditions: profile.medical_conditions,
+      sos_contacts: profile.sos_contacts,
+      insurance_name: profile.insurance_name,
+      insurance_number: profile.insurance_number,
       chosen: profile.chosen,
       user_id: user?.id,
     })

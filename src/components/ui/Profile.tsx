@@ -3,25 +3,16 @@ import { ProfileForm } from './ProfileForm'
 import { type Profile as ProfileType } from '../../objects/profile'
 import { Box, Button } from '@mui/material'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
-import { useAuth } from '../../contexts/AuthContext'
 import DeleteIcon from '@mui/icons-material/Delete'
 
 const EMPTY_PROFILE: ProfileType = {
   id: '',
   profile_title: '',
   profile_description: '',
-  data: {
-    fullName: '',
-    rh: '',
-    idType: '',
-    idNumber: '',
-    healthInsurance: '',
-    healthInsuranceNumber: '',
-    extraInfo: '',
-    emergencyName: '',
-    emergencyContact: '',
-    emergencyRelationship: '',
-  },
+  medical_conditions: [],
+  sos_contacts: [],
+  insurance_name: '',
+  insurance_number: '',
   chosen: false,
 }
 
@@ -32,12 +23,11 @@ interface ProfileProps {
 }
 
 export function Profile({ onSave, profile, onDelete }: ProfileProps) {
-  const { user } = useAuth()
   const [localProfile, setLocalProfile] = useState<ProfileType>(profile || EMPTY_PROFILE)
 
   useEffect(() => {
     setLocalProfile(profile || EMPTY_PROFILE)
-  }, [user, profile]);
+  }, [profile]);
 
   const onUpdate = (profile: ProfileType) => {
     setLocalProfile(profile)
