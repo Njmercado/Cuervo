@@ -5,9 +5,21 @@ import { useAuth } from "../contexts/AuthContext"
 export function useUpdateChosenStatus() {
   const { user } = useAuth()
 
-  const updateChosenStatus = async (id: string) => {
+  const updateChosenStatus = async (id: string, currentChosenProfileId?: string) => {
+
+    const { error: errorUpdateCurrentChosenProfile } = await supabase
+      .from('Profile')
+      .update({ chosen: false })
+      .eq('id', currentChosenProfileId)
+      .eq('user_id', user?.id)
+
+    if (errorUpdateCurrentChosenProfile) {
+      toast.error('Error updating profile')
+      return
+    }
+
     const { error } = await supabase
-      .from('PublicUser')
+      .from('Profile')
       .update({ chosen: true })
       .eq('id', id)
       .eq('user_id', user?.id)

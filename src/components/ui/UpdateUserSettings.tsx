@@ -3,15 +3,15 @@ import { FormInput } from "./FormInput"
 import { FormSelect } from "./FormSelect"
 import { useGetUser, useUpdateUser } from "../../api"
 import { useState, useEffect } from "react"
-import type { UserDTO } from "../../objects/user"
+import type { UserData } from "../../objects/user"
 
 export function UpdateUserSettings() {
   const { getUser } = useGetUser()
   const { updateUser } = useUpdateUser()
-  const [form, setForm] = useState<UserDTO | null>(null)
+  const [form, setForm] = useState<UserData | null>(null)
 
   const handleChange = (name: string, value: string) => {
-    setForm({ ...form, [name]: value } as UserDTO)
+    setForm({ ...form, [name]: value } as UserData)
   }
 
   useEffect(() => {
@@ -94,7 +94,7 @@ export function UpdateUserSettings() {
       <Grid size={12} display='flex' justifyContent='flex-end'>
         <Button
           variant="contained"
-          onClick={() => updateUser(form as UserDTO)}
+          onClick={() => updateUser(form as UserData)}
         >
           Actualizar
         </Button>

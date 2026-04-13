@@ -1,4 +1,4 @@
-export interface User {
+export interface UserData {
   name: string
   last_name: string
   full_name: string
@@ -8,9 +8,11 @@ export interface User {
   personal_phone_indicative: string
   id_type: string
   id_number: string
+  from: string
+  living_in: string
 }
 
-export interface UserDTO extends User {
+export interface User extends UserData {
   id: string
   created_at: string
   user_id: string

@@ -3,7 +3,7 @@ import { supabase } from '../lib/supabase'
 export function useGetChosenProfile() {
   async function getChosen(token: string) {
     const { data, error } = await supabase
-      .from('PublicUser')
+      .from('Profile')
       .select('*')
       .eq('user_id', token)
       .eq('chosen', true)

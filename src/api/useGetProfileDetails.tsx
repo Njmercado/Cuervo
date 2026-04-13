@@ -12,14 +12,20 @@ export interface ProfileDetails extends Profile {
 export function useGetProfileDetails() {
   const { user } = useAuth()
 
-  const getProfileDetails = async (id: string): Promise<ProfileDetails | null> => {
+  const getProfileDetails = async (id: string, isChosen: boolean = false): Promise<ProfileDetails | null> => {
     // 1. Fetch Profile
-    const { data: profile, error: profileError } = await supabase
+    let queryProfile = supabase
       .from('Profile')
       .select('*')
-      .eq('id', id)
       .eq('user_id', user?.id)
-      .single()
+
+    if (isChosen) {
+      queryProfile = queryProfile.eq('chosen', true)
+    } else {
+      queryProfile = queryProfile.eq('id', id)
+    }
+
+    const { data: profile, error: profileError } = await queryProfile.single()
 
     if (profileError || !profile) {
       throw profileError || new Error('Profile not found')

@@ -19,7 +19,7 @@ import {
 import AddIcon from '@mui/icons-material/Add'
 import { useQR } from '../hooks/useQR'
 import { ProfileChosenCard } from './ui/ProfileChosenCard'
-import { useGetProfiles, useCreateProfile, useUpdateProfile, useUpdateChosenStatus, useDeleteProfile } from '../api'
+import { useGetProfiles, useCreateProfile, useUpdateProfile, useUpdateChosenStatus, useDeleteProfile, useUpdatePublicProfile } from '../api'
 import { EmptyState } from './ui/EmptyState'
 
 export function ProfilesView() {
@@ -34,6 +34,7 @@ export function ProfilesView() {
   const { updateProfile } = useUpdateProfile()
   const { updateChosenStatus } = useUpdateChosenStatus()
   const { deleteProfile } = useDeleteProfile()
+  const { updatePublicProfile } = useUpdatePublicProfile()
 
   const reloadProfiles = async () => {
     if (!user) return
@@ -54,8 +55,9 @@ export function ProfilesView() {
     reloadProfiles()
   }
 
-  const handleUpdateChosenStatus = async (id: string) => {
-    await updateChosenStatus(id)
+  const handleUpdateChosenStatus = async (id: string, currentChosenProfileId?: string) => {
+    await updateChosenStatus(id, currentChosenProfileId)
+    await updatePublicProfile()
     chooseProfile(id)
   }
 
@@ -145,7 +147,7 @@ export function ProfilesView() {
                   setOpenProfileDrawer(true)
                 }}
                 onDelete={(id: string) => handleDeleteProfile(id)}
-                onSelect={(id: string) => handleUpdateChosenStatus(id)}
+                onSelect={(id: string) => handleUpdateChosenStatus(id, mainProfile?.id)}
               />
             </Grid>
           ))}

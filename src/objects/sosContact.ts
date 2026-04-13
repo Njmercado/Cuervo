@@ -5,10 +5,10 @@ export interface SOSContactData {
   phone_indicative: string
   location: string
   relationship: string
-  user_id?: string
 }
 
 export interface SOSContact extends SOSContactData {
   id: string
+  user_id?: string
   created_at?: string
 }
