@@ -43,7 +43,7 @@ export function ConditionCard({ condition, onEdit, onDelete }: ConditionCardProp
   ]
 
   return (
-    <Card>
+    <Card sx={{ bgcolor: condition.is_allergy ? theme.palette.custom.tertiary[20] : theme.palette.background.default }}>
       <CardContent>
         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start', gap: 2 }}>
           {/* Icon */}
@@ -63,9 +63,12 @@ export function ConditionCard({ condition, onEdit, onDelete }: ConditionCardProp
 
           {/* Content */}
           <Box sx={{ flexGrow: 1 }}>
-            <Typography variant="h6" fontWeight={700} gutterBottom>
-              {condition.title}
-            </Typography>
+            <Box display='flex' flexDirection='row' justifyContent='space-between' alignItems='center'>
+              <Typography variant="h6" fontWeight={700} gutterBottom>
+                {condition.title}
+              </Typography>
+              <Chip label={condition.is_allergy ? 'Alergia' : 'Condición Médica'} size='small' />
+            </Box>
 
             {condition.medicines.length > 0 && (
               <Box>
@@ -88,9 +91,11 @@ export function ConditionCard({ condition, onEdit, onDelete }: ConditionCardProp
               </Box>
             )}
 
-            <Typography variant="caption" color="text.disabled" sx={{ display: 'block', mt: 1 }}>
-              {new Date(condition.created_at).toLocaleDateString('es-CO', { year: 'numeric', month: 'short', day: 'numeric' })}
-            </Typography>
+            {condition.created_at &&
+              <Typography variant="caption" color="text.disabled" sx={{ display: 'block', mt: 1 }}>
+                {new Date(condition.created_at).toLocaleDateString('es-CO', { year: 'numeric', month: 'short', day: 'numeric' })}
+              </Typography>
+            }
           </Box>
 
           {/* Menu */}

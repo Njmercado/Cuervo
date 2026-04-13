@@ -55,7 +55,7 @@ export function SideDrawer({ isOpen, onClose, children, direction = 'right', tit
           },
         }}
         ModalProps={{
-          keepMounted: true,
+          keepMounted: false,
         }}
         sx={sx}
       >

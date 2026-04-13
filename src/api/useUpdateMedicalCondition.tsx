@@ -12,6 +12,7 @@ export function useUpdateMedicalCondition() {
       .update({
         title: condition.title,
         medicines: condition.medicines,
+        is_allergy: condition.is_allergy,
       })
       .eq('id', condition.id)
       .eq('user_id', user?.id)

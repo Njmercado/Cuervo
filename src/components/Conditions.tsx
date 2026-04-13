@@ -19,8 +19,8 @@ import { EmptyState } from './ui/EmptyState'
 export function Conditions() {
   const theme = useTheme()
   const [conditions, setConditions] = useState<Condition[]>([])
-  const [editingCondition, setEditingCondition] = useState<Condition | undefined>(undefined)
-  const [deletingId, setDeletingId] = useState<string | undefined>(undefined)
+  const [editingCondition, setEditingCondition] = useState<Condition>()
+  const [deletingId, setDeletingId] = useState<string>()
   const [openDrawer, setOpenDrawer] = useState(false)
 
   const { getConditions } = useGetMedicalConditions()
@@ -56,12 +56,14 @@ export function Conditions() {
     setOpenDrawer(false)
   }
 
-  const handleSave = async (data: ConditionData | Condition) => {
-    if ('id' in data) {
-      await updateCondition(data as Condition)
-    } else {
-      await createCondition(data as ConditionData)
-    }
+  const handleSave = async (data: ConditionData) => {
+    await createCondition(data)
+    handleCloseDrawer()
+    loadConditions()
+  }
+
+  const handleUpdate = async (data: Condition) => {
+    await updateCondition(data)
     handleCloseDrawer()
     loadConditions()
   }
@@ -136,6 +138,7 @@ export function Conditions() {
         <ConditionForm
           condition={editingCondition}
           onSave={handleSave}
+          onUpdate={handleUpdate}
           onCancel={handleCloseDrawer}
         />
       </SideDrawer>
