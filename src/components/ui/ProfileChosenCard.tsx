@@ -1,16 +1,14 @@
 import { Box, Button, Chip, Typography, useTheme, Card, CardContent, CardActionArea, Divider, Paper } from "@mui/material"
 import type { Profile } from "../../objects/profile"
 import EditIcon from '@mui/icons-material/Edit'
-import ShareIcon from '@mui/icons-material/Share'
 import ShieldIcon from '@mui/icons-material/Shield'
 
 export interface ProfileChosenCardProps {
   profile: Profile
   onEdit: (profile: Profile) => void
-  onShare: (id: string) => void
 }
 
-export function ProfileChosenCard({ profile, onEdit, onShare }: ProfileChosenCardProps) {
+export function ProfileChosenCard({ profile, onEdit }: ProfileChosenCardProps) {
   const theme = useTheme();
   return (
     <Card>
@@ -36,10 +34,6 @@ export function ProfileChosenCard({ profile, onEdit, onShare }: ProfileChosenCar
           <Button variant='text' sx={{ color: theme.palette.custom.primary[100], gap: 1 }} onClick={() => onEdit(profile)}>
             <EditIcon />
             <span>Editar</span>
-          </Button>
-          <Button variant='text' sx={{ color: 'text.primary', gap: 1 }} onClick={() => onShare(profile.user_id || '')}>
-            <ShareIcon />
-            <span>Compartir</span>
           </Button>
         </Box>
         <Typography>

@@ -309,7 +309,7 @@ function App() {
               <Dashboard />
             </ProtectedRoute>
           } />
-          <Route path="/public/:token" element={<Public />} />
+          <Route path="/p/:token" element={<Public />} />
         </Routes>
       </AuthProvider>
     </ThemeProvider>

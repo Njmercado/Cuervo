@@ -21,6 +21,7 @@ import { useQR } from '../hooks/useQR'
 import { ProfileChosenCard } from './ui/ProfileChosenCard'
 import { useGetProfiles, useCreateProfile, useUpdateProfile, useUpdateChosenStatus, useDeleteProfile, useUpdatePublicProfile } from '../api'
 import { EmptyState } from './ui/EmptyState'
+import ShareIcon from '@mui/icons-material/Share'
 
 export function ProfilesView() {
   const [openProfileDrawer, setOpenProfileDrawer] = useState(false)
@@ -99,7 +100,7 @@ export function ProfilesView() {
   }
 
   const handleShareProfile = (id: string) => {
-    window.open(`/public/${id}`, '_blank');
+    window.open(`/p/${id}`, '_blank');
   }
 
   const mainProfile = profiles.find((p) => p.chosen);
@@ -116,9 +117,6 @@ export function ProfilesView() {
               setEditingProfile(profile)
               setOpenProfileDrawer(true)
             }}
-            onShare={(id: string) => {
-              handleShareProfile(id)
-            }}
           />
 
           {/* QR INFORMATION AND BAND ID */}
@@ -133,6 +131,19 @@ export function ProfilesView() {
                 {/* TODO: Add band id, this current one is just for testing */}
                 <Typography sx={{ color: theme.palette.custom.neutral[100], fontSize: theme.customSizes.font.lg }}>KGD-772-NM</Typography>
               </Paper>
+              <Button variant='text' sx={{
+                color: theme.palette.primary.contrastText,
+                gap: 1,
+                bgcolor: 'rgba(255, 255, 255, 0.3)',
+                '&:hover': {
+                  bgcolor: 'rgba(255, 255, 255, 0.5)',
+                  transform: 'scale(1.05)',
+                  transition: 'all 0.3s ease-in-out',
+                }
+              }} onClick={() => handleShareProfile(user?.id || '')}>
+                <ShareIcon />
+                <span>Visitar Perfil Público</span>
+              </Button>
             </CardContent>
           </Card>
         </Box>
