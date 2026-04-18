@@ -13,11 +13,11 @@ import { Modal } from './ui/Modal'
 import { SOSContactCard } from './ui/SOSContactCard'
 import { SOSContactForm } from './ui/SOSContactForm'
 import { SOSContactSearch } from './ui/SOSContactSearch'
-import { 
-  useGetSOSContactsQuery, 
-  useCreateSOSContactMutation, 
-  useUpdateSOSContactMutation, 
-  useDeleteSOSContactMutation 
+import {
+  useGetSOSContactsQuery,
+  useCreateSOSContactMutation,
+  useUpdateSOSContactMutation,
+  useDeleteSOSContactMutation
 } from '../store/endpoints/sosContactsApi'
 import type { SOSContact, SOSContactData } from '../objects/sosContact'
 import { EmptyState } from './ui/EmptyState'
@@ -27,7 +27,7 @@ export function SOSContacts() {
   const [editingContact, setEditingContact] = useState<SOSContact | undefined>(undefined)
   const [deletingId, setDeletingId] = useState<string | undefined>(undefined)
   const [openDrawer, setOpenDrawer] = useState(false)
-  const [searchFilter, setSearchFilter] = useState<{search?: string, relationship?: string}>({})
+  const [searchFilter, setSearchFilter] = useState<{ search?: string, relationship?: string }>({})
   const { data: contacts = [] } = useGetSOSContactsQuery(searchFilter, { skip: Object.keys(searchFilter).length === 0 ? false : undefined })
   const [createSOSContact] = useCreateSOSContactMutation()
   const [updateSOSContact] = useUpdateSOSContactMutation()
@@ -58,7 +58,7 @@ export function SOSContacts() {
   const handleSave = async (data: SOSContactData | SOSContact) => {
     try {
       if ('id' in data) {
-        await updateSOSContact(data as SOSContact).unwrap()
+        await updateSOSContact({ id: data.id, contact: data }).unwrap()
         toast.success(`Contacto "${data.name}" actualizado`)
       } else {
         await createSOSContact(data as SOSContactData).unwrap()

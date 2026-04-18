@@ -43,13 +43,18 @@ export const sosContactsApi = apiSlice.injectEndpoints({
       },
       invalidatesTags: ['SOSContact', 'Profile']
     }),
-    updateSOSContact: builder.mutation<void, SOSContact>({
-      queryFn: async (contact) => {
+    updateSOSContact: builder.mutation<void, { id: string | number, contact: SOSContactData }>({
+      queryFn: async ({ id, contact }) => {
         const { data: { user } } = await supabase.auth.getUser()
         if (!user) return { error: { status: 401, data: 'Unauthorized' } }
         const { error } = await supabase.from('SOSContact').update({
-          ...contact,
-        }).eq('id', contact.id).eq('user_id', user.id)
+          name: contact.name,
+          last_name: contact.last_name,
+          phone_number: contact.phone_number,
+          phone_indicative: contact.phone_indicative,
+          location: contact.location,
+          relationship: contact.relationship,
+        }).eq('id', id).eq('user_id', user.id)
         if (error) return { error: { status: 500, data: error.message } }
         return { data: undefined }
       },

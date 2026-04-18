@@ -122,93 +122,6 @@ export const profilesApi = apiSlice.injectEndpoints({
       },
       invalidatesTags: ['Profile']
     }),
-    updatePublicProfile: builder.mutation<void, void>({
-      queryFn: async () => {
-        const { data: { user } } = await supabase.auth.getUser()
-        if (!user) return { error: { status: 401, data: 'Unauthorized' } }
-
-        // 1. Get chosen profile
-        const { data: profile, error: profileErr } = await supabase
-          .from('Profile')
-          .select('*')
-          .eq('user_id', user.id)
-          .eq('chosen', true)
-          .single()
-
-        if (profileErr || !profile) return { error: { status: 500, data: 'Could not fetch chosen profile' } }
-
-        // 2. Get User
-        const { data: userInfo, error: userErr } = await supabase
-          .from('User')
-          .select('*')
-          .eq('user_id', user.id)
-          .single()
-
-        if (userErr || !userInfo) return { error: { status: 500, data: 'Could not fetch user' } }
-
-        // 3. Get conditions
-        let conditions: any[] = []
-        if (profile.medical_conditions && profile.medical_conditions.length > 0) {
-          const { data: cData } = await supabase
-            .from('MedicalCondition')
-            .select('*')
-            .in('id', profile.medical_conditions)
-            .eq('user_id', user.id)
-          if (cData) conditions = cData
-        }
-
-        // 4. Get contacts
-        let contacts: any[] = []
-        if (profile.sos_contacts && profile.sos_contacts.length > 0) {
-          const { data: sData } = await supabase
-            .from('SOSContact')
-            .select('*')
-            .in('id', profile.sos_contacts)
-            .eq('user_id', user.id)
-          if (sData) contacts = sData
-        }
-
-        const medical_conditions = conditions.map((condition) => ({
-          title: condition.title,
-          medicines: condition.medicines,
-          is_allergy: condition.is_allergy,
-        }))
-        const sos_contacts = contacts.map((contact) => ({
-          name: contact.name,
-          last_name: contact.last_name,
-          phone_number: contact.phone_number,
-          phone_indicative: contact.phone_indicative,
-          location: contact.location,
-          relationship: contact.relationship,
-        }))
-
-        // Upsert
-        const { error } = await supabase
-          .from('PublicProfile')
-          .upsert({
-            name: userInfo.name,
-            last_name: userInfo.last_name,
-            id_type: userInfo.id_type,
-            id_number: userInfo.id_number,
-            from: userInfo.from,
-            living_in: userInfo.living_in,
-            sex: userInfo.sex,
-            rh: userInfo.rh,
-            profile_title: profile.profile_title,
-            profile_description: profile.profile_description,
-            insurance_name: profile.insurance_name,
-            insurance_number: profile.insurance_number,
-            medical_conditions,
-            sos_contacts,
-            user_id: user.id,
-          })
-
-        if (error) return { error: { status: 500, data: error.message } }
-
-        return { data: undefined }
-      },
-      invalidatesTags: ['Profile']
-    })
   })
 })
 
@@ -220,5 +133,4 @@ export const {
   useUpdateProfileMutation,
   useDeleteProfileMutation,
   useUpdateChosenStatusMutation,
-  useUpdatePublicProfileMutation
 } = profilesApi

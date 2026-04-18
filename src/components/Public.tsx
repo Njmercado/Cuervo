@@ -298,11 +298,11 @@ export function Public() {
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
                 <PhoneRoundedIcon sx={{ fontSize: 24 }} />
                 <Typography sx={{ fontSize: theme.customSizes?.font?.lg, fontWeight: 900, letterSpacing: '-0.02em', lineHeight: 1 }}>
-                  LLAMAR A {primaryContact.name.toUpperCase()}
+                  LLAMAR A {primaryContact?.name?.toUpperCase()}
                 </Typography>
               </Box>
               <Typography sx={{ fontSize: theme.customSizes?.font?.small, fontWeight: 800, letterSpacing: '0.05em', opacity: 0.9 }}>
-                ({primaryContact.relationship.toUpperCase()})
+                ({primaryContact?.relationship?.toUpperCase()})
               </Typography>
             </Button>
           </Box>

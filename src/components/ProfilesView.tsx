@@ -1,5 +1,3 @@
-import { useAuth } from '../contexts/AuthContext'
-
 import { type Profile as ProfileType } from '../objects/profile'
 import { useEffect, useState } from 'react'
 import { Profile } from './ui/Profile'
@@ -25,8 +23,8 @@ import {
   useUpdateProfileMutation,
   useUpdateChosenStatusMutation,
   useDeleteProfileMutation,
-  useUpdatePublicProfileMutation
 } from '../store/endpoints/profilesApi'
+import { useGetUserQuery } from '../store/endpoints/usersApi'
 import { EmptyState } from './ui/EmptyState'
 import ShareIcon from '@mui/icons-material/Share'
 import { ROUTES } from '../constants'
@@ -34,7 +32,6 @@ import { ROUTES } from '../constants'
 export function ProfilesView() {
   const [openProfileDrawer, setOpenProfileDrawer] = useState(false)
   const { qrCode, generateQR } = useQR()
-  const { user } = useAuth()
   const theme = useTheme()
   const { data: profiles = [] } = useGetProfilesQuery()
   const [editingProfile, setEditingProfile] = useState<ProfileType>()
@@ -42,7 +39,7 @@ export function ProfilesView() {
   const [updateProfile] = useUpdateProfileMutation()
   const [updateChosenStatus] = useUpdateChosenStatusMutation()
   const [deleteProfile] = useDeleteProfileMutation()
-  const [updatePublicProfile] = useUpdatePublicProfileMutation()
+  const { data: user } = useGetUserQuery()
 
   useEffect(() => {
     generateQR(user?.id)
@@ -58,7 +55,6 @@ export function ProfilesView() {
 
   const handleUpdateChosenStatus = async (id: string, currentChosenProfileId?: string) => {
     await updateChosenStatus({ id, currentChosenProfileId }).unwrap()
-    await updatePublicProfile().unwrap()
     toast.success('Perfil actualizado')
   }
 
@@ -139,7 +135,7 @@ export function ProfilesView() {
                   transform: 'scale(1.05)',
                   transition: 'all 0.3s ease-in-out',
                 }
-              }} onClick={() => handleShareProfile(user?.id || '')}>
+              }} onClick={() => handleShareProfile(user?.user_id || '')}>
                 <ShareIcon />
                 <span>Visitar Perfil Público</span>
               </Button>
@@ -176,7 +172,7 @@ export function ProfilesView() {
             <Typography sx={{ fontSize: theme => theme.customSizes.font.small, fontWeight: 700, color: 'text.primary' }}> PANEL DE CONTROL </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, flexWrap: 'wrap' }}>
               <Typography variant="h3" fontWeight={700} sx={{ flexGrow: 1, color: theme => theme.palette.primary.main }}>
-                Hola, {user?.identities?.[0].identity_data?.display_name}
+                Hola, {user?.full_name}
               </Typography>
             </Box>
           </Box>
