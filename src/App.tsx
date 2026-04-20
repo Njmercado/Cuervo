@@ -1,6 +1,6 @@
 import { Routes, Route } from 'react-router-dom'
 import { Login } from './components/Login'
-import { SignUp } from './components/SignUp'
+import { Activate } from './components/Activate'
 import { Dashboard } from './components/Dashboard'
 import { AuthProvider } from './contexts/AuthContext'
 import { Public } from './components/Public'
@@ -308,7 +308,7 @@ function App() {
           <Route path={ROUTES.LANDING} element={<Landing />} />
           <Route path={ROUTES.BUY} element={<Buy />} />
           <Route path={ROUTES.LOG_IN} element={<Login />} />
-          <Route path={ROUTES.SIGN_UP} element={<SignUp />} />
+          <Route path={ROUTES.ACTIVATE + "/:license_id?"} element={<Activate />} />
           <Route path={ROUTES.DASHBOARD + "/*"} element={
             <ProtectedRoute>
               <Dashboard />

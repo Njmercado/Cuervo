@@ -1,9 +1,10 @@
 import { useAuth } from "../contexts/AuthContext"
 import { Box, CircularProgress } from "@mui/material"
 import { Login } from "../components/Login"
+import { PasswordResetModal } from "../components/ui/PasswordResetModal"
 
 export function ProtectedRoute({ children }: { children: React.ReactNode }) {
-  const { session, loading } = useAuth()
+  const { session, loading, requiresPasswordChange } = useAuth()
 
   if (loading) {
     return (
@@ -25,5 +26,13 @@ export function ProtectedRoute({ children }: { children: React.ReactNode }) {
     return <Login />
   }
 
-  return <>{children}</>
+  if (requiresPasswordChange) {
+    return <PasswordResetModal />
+  }
+
+  return (
+    <>
+      {children}
+    </>
+  )
 }

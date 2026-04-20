@@ -13,7 +13,7 @@ import {
   Card,
 } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
-import PersonAddAltIcon from '@mui/icons-material/PersonAddAlt'
+import ConfirmationNumberOutlinedIcon from '@mui/icons-material/ConfirmationNumberOutlined'
 import { ROUTES } from '../constants'
 
 export function Login() {
@@ -175,16 +175,16 @@ export function Login() {
         {/* Footer actions */}
         <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, mb: 6 }}>
           <Typography sx={{ fontSize: theme => theme.customSizes.font.base, color: '#666' }}>
-            ¿No tienes una cuenta aún?
+            ¿Tienes una manilla QuienEs?
           </Typography>
           <Button
             component={Link}
-            to="/signup"
-            endIcon={<PersonAddAltIcon sx={{ fontSize: theme => theme.customSizes.font.lg }} />}
+            to="/activate"
+            endIcon={<ConfirmationNumberOutlinedIcon sx={{ fontSize: theme => theme.customSizes.font.lg }} />}
             variant='contained'
             color='secondary'
           >
-            Crear Cuenta
+            Activar Manilla
           </Button>
         </Box>
       </Box>

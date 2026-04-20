@@ -259,7 +259,7 @@ function HeroSection() {
         >
           <Button
             component={Link}
-            to={ROUTES.SIGN_UP}
+            to={ROUTES.ACTIVATE}
             variant="contained"
             color="primary"
             endIcon={<ArrowForwardIcon />}
@@ -271,7 +271,7 @@ function HeroSection() {
               boxShadow: '0 8px 24px rgba(0, 110, 42, 0.2)',
             }}
           >
-            Crear Cuenta
+            Activar Manilla
           </Button>
           <Button
             component={Link}

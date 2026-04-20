@@ -6,9 +6,10 @@ interface AuthContextType {
   session: Session | null
   user: User | null
   loading: boolean
+  requiresPasswordChange: boolean
 }
 
-const AuthContext = createContext<AuthContextType>({ session: null, user: null, loading: true })
+const AuthContext = createContext<AuthContextType>({ session: null, user: null, loading: true, requiresPasswordChange: false })
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null)
@@ -33,8 +34,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return () => subscription.unsubscribe()
   }, [])
 
+  const requiresPasswordChange = user?.user_metadata?.requires_password_change === true
+
   return (
-    <AuthContext.Provider value={{ session, user, loading }}>
+    <AuthContext.Provider value={{ session, user, loading, requiresPasswordChange }}>
       {children}
     </AuthContext.Provider>
   )
@@ -43,3 +46,4 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 export const useAuth = () => {
   return useContext(AuthContext)
 }
+
