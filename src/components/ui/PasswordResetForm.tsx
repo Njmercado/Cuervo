@@ -4,17 +4,13 @@ import { toast } from 'react-hot-toast'
 import {
   Box,
   Typography,
-  TextField,
-  InputLabel,
   Button,
   Alert,
   CircularProgress,
-  InputAdornment,
   useTheme,
+  Grid,
 } from '@mui/material'
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
-import VerifiedUserOutlinedIcon from '@mui/icons-material/VerifiedUserOutlined'
-import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
+import { FormInput } from './FormInput'
 
 interface PasswordResetFormProps {
   title?: string
@@ -105,10 +101,9 @@ export function PasswordResetForm({
         )}
 
         <Box>
-          <InputLabel shrink htmlFor="new-password-input">NUEVA CONTRASEÑA *</InputLabel>
-          <TextField
-            id="new-password-input"
-            fullWidth
+          <FormInput
+            label="Nueva contraseña"
+            name="new-password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -116,52 +111,33 @@ export function PasswordResetForm({
             required
             autoFocus
             autoComplete="new-password"
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <LockOutlinedIcon sx={{ color: 'text.disabled', fontSize: 20 }} />
-                  </InputAdornment>
-                ),
-              },
-            }}
           />
         </Box>
 
         <Box>
-          <InputLabel shrink htmlFor="confirm-new-password-input">CONFIRMAR CONTRASEÑA *</InputLabel>
-          <TextField
-            id="confirm-new-password-input"
-            fullWidth
+          <FormInput
+            label="Confirmar contraseña"
+            name="confirm-new-password"
             type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             placeholder="••••••••"
             required
             autoComplete="new-password"
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <VerifiedUserOutlinedIcon sx={{ color: 'text.disabled', fontSize: 20 }} />
-                  </InputAdornment>
-                ),
-              },
-            }}
           />
         </Box>
 
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          disabled={loading || !password || !confirmPassword}
-          endIcon={!loading ? <ArrowForwardIcon sx={{ fontSize: 18 }} /> : undefined}
-          sx={{ mt: 2 }}
-        >
-          {loading ? <CircularProgress size={24} color="inherit" /> : 'ACTUALIZAR CONTRASEÑA'}
-        </Button>
+        <Grid size={12} display='flex' justifyContent='flex-end'>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            disabled={loading || !password || !confirmPassword}
+            sx={{ mt: 2 }}
+          >
+            {loading ? <CircularProgress size={24} color="inherit" /> : 'Actualizar contraseña'}
+          </Button>
+        </Grid>
       </Box>
     </>
   )
