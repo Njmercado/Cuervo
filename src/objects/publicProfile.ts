@@ -9,4 +9,6 @@ export type PublicProfileType =
   {
     medical_conditions: ConditionData[]
     sos_contacts: SOSContactData[]
+    medical_devices?: string[]
+    life_saving_directives?: string[]
   }

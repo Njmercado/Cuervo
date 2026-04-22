@@ -46,8 +46,8 @@ export function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
 
       <Box sx={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
         {/* Personal Info */}
-        <Box component="section" aria-label="Personal Information" mt={8}>
-          <Typography fontWeight={600} sx={{ letterSpacing: '0.1em', mt: 8 }}>INFORMACION DE SALUD</Typography>
+        <Box component="section" aria-label="Personal Information" mt={2}>
+          <Typography fontWeight={600} sx={{ letterSpacing: '0.1em' }}>INFORMACION DE SALUD</Typography>
           <Divider sx={{ mt: 1 }} />
           <Box sx={{
             display: 'grid',
@@ -74,7 +74,7 @@ export function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
         </Box>
 
         <Box>
-          <Typography fontWeight={600} sx={{ letterSpacing: '0.1em', mt: 8 }}>CONDICIONES MEDICAS</Typography>
+          <Typography fontWeight={600} sx={{ letterSpacing: '0.1em', mt: 2 }}>CONDICIONES MEDICAS</Typography>
           <Divider sx={{ mt: 1 }} />
           <Box mt={3}>
             <ProfileMedicalConditions form={profile} setForm={onUpdate} />
@@ -82,7 +82,7 @@ export function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
         </Box>
 
         {/* Emergency Info */}
-        <Box mt={8} component="section" aria-label="Emergency Information">
+        <Box mt={4} component="section" aria-label="Emergency Information">
           <Typography
             fontWeight={600}
             sx={{
