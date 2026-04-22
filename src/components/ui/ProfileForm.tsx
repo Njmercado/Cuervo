@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+
 import { type Profile as ProfileType } from '../../objects/profile'
 import { FormInput } from './FormInput'
 import { Box, Typography, Divider } from '@mui/material'
@@ -11,15 +11,6 @@ interface ProfileFormProps {
 }
 
 export function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
-  const [form, setForm] = useState<ProfileType>(profile)
-
-  useEffect(() => {
-    setForm(profile)
-  }, [profile])
-
-  useEffect(() => {
-    if (form) onUpdate(form)
-  }, [form])
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
@@ -39,15 +30,15 @@ export function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
         <FormInput
           label="Titulo"
           placeholder="Perfil Deportivo"
-          value={form?.profile_title || ''}
-          onChange={(e) => setForm({ ...form, profile_title: e.target.value })}
+          value={profile?.profile_title || ''}
+          onChange={(e) => onUpdate({ ...profile, profile_title: e.target.value })}
           onClick={(e) => e.stopPropagation()}
         />
         <FormInput
           label="Descripción Perfil"
           placeholder="Perfil Deportivo"
-          value={form?.profile_description || ''}
-          onChange={(e) => setForm({ ...form, profile_description: e.target.value })}
+          value={profile?.profile_description || ''}
+          onChange={(e) => onUpdate({ ...profile, profile_description: e.target.value })}
           onClick={(e) => e.stopPropagation()}
           textarea
         />
@@ -69,14 +60,14 @@ export function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
           }}>
             <FormInput
               label="Seguro de Salud"
-              value={form?.insurance_name || ''}
-              onChange={(e) => setForm({ ...form, insurance_name: e.target.value })}
+              value={profile?.insurance_name || ''}
+              onChange={(e) => onUpdate({ ...profile, insurance_name: e.target.value })}
               sx={{ gridArea: 'insurance' }}
             />
             <FormInput
               label="Numero Seguro (Opcional)"
-              value={form?.insurance_number || ''}
-              onChange={(e) => setForm({ ...form, insurance_number: e.target.value })}
+              value={profile?.insurance_number || ''}
+              onChange={(e) => onUpdate({ ...profile, insurance_number: e.target.value })}
               sx={{ gridArea: 'insurance-number' }}
             />
           </Box>
@@ -86,7 +77,7 @@ export function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
           <Typography fontWeight={600} sx={{ letterSpacing: '0.1em', mt: 8 }}>CONDICIONES MEDICAS</Typography>
           <Divider sx={{ mt: 1 }} />
           <Box mt={3}>
-            <ProfileMedicalConditions form={form} setForm={setForm} />
+            <ProfileMedicalConditions form={profile} setForm={onUpdate} />
           </Box>
         </Box>
 
@@ -104,7 +95,7 @@ export function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
           </Typography>
           <Divider sx={{ mt: 1 }} />
           <Box mt={3}>
-            <ProfileSOSContacts form={form} setForm={setForm} />
+            <ProfileSOSContacts form={profile} setForm={onUpdate} />
           </Box>
         </Box>
       </Box>

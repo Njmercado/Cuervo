@@ -34,7 +34,7 @@ export function Profile({ onUpdate, onSave, profile, onDelete }: ProfileProps) {
   }
 
   return (
-    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, px: 16, py: 8 }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4, p: 3 }}>
       <ProfileForm
         profile={localProfile ?? {} as ProfileType}
         onUpdate={handleUpdate}

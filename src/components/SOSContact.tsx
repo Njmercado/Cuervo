@@ -5,8 +5,10 @@ import {
   Typography,
   Grid,
   useTheme,
+  IconButton,
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 import toast from 'react-hot-toast'
 import { SideDrawer } from './ui/SideDrawer'
 import { Modal } from './ui/Modal'
@@ -82,30 +84,45 @@ export function SOSContacts() {
     }
   }
 
+  const createNewContactButton = () => {
+    return (
+      <Box>
+        <Button
+          onClick={handleOpenCreate}
+          variant="contained"
+          size="small"
+          startIcon={<AddIcon />}
+          sx={{ display: { xs: 'none', md: 'flex' } }}
+          color='error'
+        >
+          Agregar Contacto
+        </Button>
+
+        <IconButton
+          onClick={handleOpenCreate}
+          sx={{
+            display: { xs: 'block', md: 'none' }
+          }}
+        >
+          <AddCircleIcon color='error' fontSize='large' />
+        </IconButton>
+      </Box>
+    )
+  }
+
   const deletingContact = contacts.find((c) => c.id === deletingId)
 
   return (
-    <Box component="main" height="100vh">
+    <Box component="main">
       <Box sx={{ p: 4 }}>
         {/* Header */}
         <Box component="header" sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Box>
-            <Typography sx={{ fontSize: theme.customSizes.font.small, fontWeight: 700, color: 'text.primary' }}>
-              PANEL DE CONTROL
-            </Typography>
-            <Typography variant="h3" fontWeight={700} sx={{ color: theme.palette.error.main }}>
+            <Typography fontWeight={700} sx={{ color: theme.palette.error.main, fontSize: { xs: theme.customSizes.font.xl, md: theme.customSizes.font.h2 } }}>
               Contactos de Emergencia
             </Typography>
           </Box>
-          <Button
-            onClick={handleOpenCreate}
-            variant="contained"
-            size="small"
-            startIcon={<AddIcon />}
-            sx={{ bgcolor: theme.palette.custom.tertiary[100] }}
-          >
-            Agregar Contacto
-          </Button>
+          {createNewContactButton()}
         </Box>
 
         {/* Search & Filters */}

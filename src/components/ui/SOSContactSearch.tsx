@@ -32,25 +32,8 @@ export function SOSContactSearch({ onSearch }: SOSContactSearchProps) {
   }
 
   return (
-    <Box sx={{ display: 'flex', gap: 2, mb: 3, flexWrap: 'wrap' }}>
-      <TextField
-        value={query}
-        onChange={(e) => handleQueryChange(e.target.value)}
-        placeholder="Buscar por nombre o teléfono..."
-        variant="filled"
-        size="small"
-        sx={{ flexGrow: 1, minWidth: 200 }}
-        slotProps={{
-          input: {
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon sx={{ color: 'text.disabled' }} />
-              </InputAdornment>
-            ),
-          },
-        }}
-      />
-      <FormControl variant="filled" size="small" sx={{ minWidth: 180 }}>
+    <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '1fr 2fr', md: '1fr 5fr' }, gap: 2, mb: 3, flexWrap: 'wrap' }}>
+      <FormControl variant="filled" size="small">
         <InputLabel sx={{ textTransform: 'uppercase', fontSize: 11, letterSpacing: '0.15em' }}>
           Relación
         </InputLabel>
@@ -67,6 +50,27 @@ export function SOSContactSearch({ onSearch }: SOSContactSearchProps) {
           ))}
         </Select>
       </FormControl>
+      <TextField
+        value={query}
+        onChange={(e) => handleQueryChange(e.target.value)}
+        placeholder="Buscar por nombre o teléfono..."
+        label="BUSCAR"
+        variant="filled"
+        size="small"
+        sx={{ flexGrow: 1, minWidth: 200 }}
+        slotProps={{
+          inputLabel: {
+            sx: { textTransform: 'uppercase', fontSize: 11, letterSpacing: '0.15em' }
+          },
+          input: {
+            startAdornment: (
+              <InputAdornment position="start">
+                <SearchIcon sx={{ color: 'text.disabled' }} />
+              </InputAdornment>
+            ),
+          },
+        }}
+      />
     </Box>
   )
 }

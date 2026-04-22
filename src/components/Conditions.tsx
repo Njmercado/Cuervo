@@ -5,18 +5,20 @@ import {
   Typography,
   Grid,
   useTheme,
+  IconButton,
 } from '@mui/material'
 import AddIcon from '@mui/icons-material/Add'
+import AddCircleIcon from '@mui/icons-material/AddCircle'
 import toast from 'react-hot-toast'
 import { SideDrawer } from './ui/SideDrawer'
 import { Modal } from './ui/Modal'
 import { ConditionCard } from './ui/ConditionCard'
 import { ConditionForm } from './ui/ConditionForm'
-import { 
-  useGetMedicalConditionsQuery, 
-  useCreateMedicalConditionMutation, 
-  useUpdateMedicalConditionMutation, 
-  useDeleteMedicalConditionMutation 
+import {
+  useGetMedicalConditionsQuery,
+  useCreateMedicalConditionMutation,
+  useUpdateMedicalConditionMutation,
+  useDeleteMedicalConditionMutation
 } from '../store/endpoints/medicalConditionsApi'
 import type { Condition, ConditionData } from '../objects/condition'
 import { EmptyState } from './ui/EmptyState'
@@ -78,30 +80,44 @@ export function Conditions() {
     }
   }
 
+  const createNewConditionButton = () => {
+    return (
+      <Box>
+        <Button
+          onClick={handleOpenCreate}
+          variant="contained"
+          size="small"
+          startIcon={<AddIcon />}
+          sx={{ bgcolor: theme.palette.custom.primary[100], display: { xs: 'none', md: 'flex' } }}
+        >
+          Agregar Condición
+        </Button>
+
+        <IconButton
+          onClick={handleOpenCreate}
+          sx={{
+            display: { xs: 'block', md: 'none' }
+          }}
+        >
+          <AddCircleIcon color='primary' fontSize='large' />
+        </IconButton>
+      </Box>
+    )
+  }
+
   const deletingCondition = conditions.find((c) => c.id === deletingId)
 
   return (
-    <Box component="main" height="100vh">
+    <Box component="main">
       <Box sx={{ p: 4 }}>
         {/* Header */}
         <Box component="header" sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Box>
-            <Typography sx={{ fontSize: theme.customSizes.font.small, fontWeight: 700, color: 'text.primary' }}>
-              PANEL DE CONTROL
-            </Typography>
-            <Typography variant="h3" fontWeight={700} sx={{ color: theme.palette.primary.main }}>
+            <Typography fontWeight={700} sx={{ color: theme.palette.primary.main, fontSize: { xs: theme.customSizes.font.xl, md: theme.customSizes.font.h2 } }}>
               Condiciones Médicas
             </Typography>
           </Box>
-          <Button
-            onClick={handleOpenCreate}
-            variant="contained"
-            size="small"
-            startIcon={<AddIcon />}
-            sx={{ bgcolor: theme.palette.custom.primary[100] }}
-          >
-            Agregar Condición
-          </Button>
+          {createNewConditionButton()}
         </Box>
 
         {/* Content */}

@@ -22,6 +22,7 @@ export const medicalConditionsApi = apiSlice.injectEndpoints({
           title: condition.title,
           medicines: condition.medicines,
           user_id: user.id,
+          is_allergy: condition.is_allergy,
         })
         if (error) return { error: { status: 500, data: error.message } }
         return { data: undefined }

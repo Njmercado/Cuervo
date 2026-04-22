@@ -1,4 +1,4 @@
-import { Box, Button, Chip, Typography, useTheme, Card, CardContent, CardActionArea, Divider, Paper } from "@mui/material"
+import { Box, Button, Chip, Typography, useTheme, Card, CardContent, Divider, Paper } from "@mui/material"
 import type { Profile } from "../../objects/profile"
 import EditIcon from '@mui/icons-material/Edit'
 import ShieldIcon from '@mui/icons-material/Shield'
@@ -29,7 +29,7 @@ export function ProfileChosenCard({ profile, onEdit }: ProfileChosenCardProps) {
         </Box>
       </CardContent>
       <Divider sx={{ borderColor: theme.palette.custom.neutral[100], }} />
-      <CardActionArea sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', p: 2 }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', p: 2 }}>
         <Box>
           <Button variant='text' sx={{ color: theme.palette.custom.primary[100], gap: 1 }} onClick={() => onEdit(profile)}>
             <EditIcon />
@@ -39,7 +39,7 @@ export function ProfileChosenCard({ profile, onEdit }: ProfileChosenCardProps) {
         <Typography>
           ULTIMA MODIFICACION: {new Date(profile.updated_at || '').toLocaleDateString()}
         </Typography>
-      </CardActionArea>
+      </Box>
     </Card>
   )
 }

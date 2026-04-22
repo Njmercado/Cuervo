@@ -44,11 +44,10 @@ export function SideDrawer({ isOpen, onClose, children, direction = 'right', tit
                   case 'medium':
                     return 600
                   case 'large':
-                    return 800
                   case 'xlarge':
-                    return '70%'
+                    return 800
                   default:
-                    return { xs: '100%', sm: 400, md: 600, lg: 800, xl: '70%' }
+                    return { xs: '100%', sm: 400, md: 600, lg: 800 }
                 }
               },
             }

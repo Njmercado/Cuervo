@@ -25,6 +25,7 @@ declare module '@mui/material/styles' {
       };
       tertiary: {
         100: string;
+        80: string;
         20: string;
         5: string;
       };
@@ -73,14 +74,14 @@ const lightTheme = createTheme({
   customSizes: {
     contentWidth: 1200,
     font: {
-      tiny: '0.625rem',  // 10px
-      small: '0.75rem',  // 12px
-      base: '0.9375rem', // 15px
-      lg: '1.125rem',    // 18px
-      xl: '1.5rem',      // 24px
-      h3: '2.25rem',     // 36px
-      h2: '3rem',        // 48px
-      h1: '4rem',        // 64px
+      tiny: '10px',
+      small: '12px',
+      base: '15px',
+      lg: '18px',
+      xl: '24px',
+      h3: '36px',
+      h2: '48px',
+      h1: '64px',
     },
     radius: {
       sm: '4px',
@@ -129,6 +130,7 @@ const lightTheme = createTheme({
       },
       tertiary: {
         100: 'rgba(198, 40, 40, 1)',
+        80: 'rgba(198, 40, 40, 0.8)',
         20: 'rgba(198, 40, 40, 0.2)',
         5: 'rgba(198, 40, 40, 0.05)',
       },
@@ -171,6 +173,13 @@ const lightTheme = createTheme({
           color: '#006E2A',
           '&:hover': {
             backgroundColor: '#9e9e9e',
+          },
+        },
+        containedError: {
+          backgroundColor: 'rgba(198, 40, 40, 1)',
+          color: '#ffffff',
+          '&:hover': {
+            backgroundColor: 'rgba(155, 30, 30, 1)',
           },
         },
         outlined: {
