@@ -9,7 +9,8 @@ export interface UserData {
   id_type: string
   id_number: string
   from: string
-  living_in: string
+  living_in: string,
+  devices?: string[],
 }
 
 export interface User extends UserData {

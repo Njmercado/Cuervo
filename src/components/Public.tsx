@@ -313,7 +313,7 @@ export function Public() {
                   </Box>
                   <Button
                     variant="contained"
-                    href={`tel:${contact.phone_indicative || ''}${contact.phone_number}`}
+                    href={`tel:${contact.phone_number}`}
                     onClick={sendLocationToEmergencyContacts}
                     fullWidth
                     sx={{

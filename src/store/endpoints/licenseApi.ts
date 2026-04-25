@@ -88,12 +88,28 @@ export const licenseApi = apiSlice.injectEndpoints({
           return { error: { status: 500, data: loginError.message } }
         }
 
-        // 5. Create User table row
+        // 5. Create Device table row
+        // Using 'Band' as the default device type. Adjust as needed if License indicates otherwise.
+        const { data: deviceData, error: deviceError } = await supabase
+          .from('Device')
+          .insert({
+            user_id: authData.user.id,
+            type: 'Band',
+          })
+          .select('id')
+          .single()
+
+        if (deviceError) {
+          return { error: { status: 500, data: deviceError.message } }
+        }
+
+        // 6. Create User table row
         const { error: userError } = await supabase.from('User').insert({
           user_id: authData.user.id,
           name: license.user_name,
           last_name: license.user_last_name,
           full_name: `${license.user_name} ${license.user_last_name}`,
+          devices: deviceData?.id ? [deviceData.id] : [],
         })
 
         if (userError) {
@@ -118,7 +134,7 @@ export const licenseApi = apiSlice.injectEndpoints({
 
         return { data: undefined }
       },
-      invalidatesTags: ['License', 'User', 'Profile'],
+      invalidatesTags: ['License', 'User', 'Profile', 'Device'],
     }),
   }),
 })
