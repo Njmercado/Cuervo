@@ -68,7 +68,7 @@ export function ConditionForm({ condition, onSave, onUpdate, onCancel }: Conditi
       <FormInput
         label="Título"
         value={form?.title}
-        onChange={(e) => setForm({ ...form, title: e.target.value } as Condition)}
+        onChange={(value) => setForm({ ...form, title: value } as Condition)}
         placeholder="Ej: Diabetes tipo 2"
       />
 

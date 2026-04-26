@@ -29,7 +29,7 @@ export function ProfileCard({ profile, onEdit, onDelete, onSelect }: ProfileCard
     {
       label: 'Eliminar',
       icon: DeleteIcon,
-      onClick: (profile: Profile) => onDelete(profile.id)
+      onClick: (profile: Profile) => profile.id && onDelete(profile.id)
     }
   ]
 
@@ -89,7 +89,7 @@ export function ProfileCard({ profile, onEdit, onDelete, onSelect }: ProfileCard
         </Box>
       </CardContent>
       <CardActionArea sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 2, px: 2 }}>
-        <Button variant="text" color="success" onClick={() => onSelect?.(profile.id)}>
+        <Button variant="text" color="success" onClick={() => profile.id && onSelect?.(profile.id)}>
           <AutorenewIcon />
           <span>Activar este perfil</span>
         </Button>

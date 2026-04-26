@@ -31,14 +31,14 @@ export function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
           label="Titulo"
           placeholder="Perfil Deportivo"
           value={profile?.profile_title || ''}
-          onChange={(e) => onUpdate({ ...profile, profile_title: e.target.value })}
+          onChange={(value) => onUpdate({ ...profile, profile_title: value })}
           onClick={(e) => e.stopPropagation()}
         />
         <FormInput
           label="Descripción Perfil"
           placeholder="Perfil Deportivo"
           value={profile?.profile_description || ''}
-          onChange={(e) => onUpdate({ ...profile, profile_description: e.target.value })}
+          onChange={(value) => onUpdate({ ...profile, profile_description: value })}
           onClick={(e) => e.stopPropagation()}
           textarea
         />
@@ -61,13 +61,13 @@ export function ProfileForm({ profile, onUpdate }: ProfileFormProps) {
             <FormInput
               label="Seguro de Salud"
               value={profile?.insurance_name || ''}
-              onChange={(e) => onUpdate({ ...profile, insurance_name: e.target.value })}
+              onChange={(value) => onUpdate({ ...profile, insurance_name: value })}
               sx={{ gridArea: 'insurance' }}
             />
             <FormInput
               label="Numero Seguro (Opcional)"
               value={profile?.insurance_number || ''}
-              onChange={(e) => onUpdate({ ...profile, insurance_number: e.target.value })}
+              onChange={(value) => onUpdate({ ...profile, insurance_number: value })}
               sx={{ gridArea: 'insurance-number' }}
             />
           </Box>

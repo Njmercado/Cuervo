@@ -106,7 +106,7 @@ export function PasswordResetForm({
             name="new-password"
             type="password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(value) => setPassword(value)}
             placeholder="••••••••"
             required
             autoFocus
@@ -120,7 +120,7 @@ export function PasswordResetForm({
             name="confirm-new-password"
             type="password"
             value={confirmPassword}
-            onChange={(e) => setConfirmPassword(e.target.value)}
+            onChange={(value) => setConfirmPassword(value)}
             placeholder="••••••••"
             required
             autoComplete="new-password"

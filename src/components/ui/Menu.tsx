@@ -126,7 +126,7 @@ export function Menu({ onClose, mobileOnly }: MenuProps) {
     return (<BottomNavigation
       showLabels
       value={value}
-      onChange={(event, newValue) => {
+      onChange={(_, newValue) => {
         setValue(newValue);
         navigate(MENU_OPTIONS[newValue].navigate);
       }}

@@ -58,34 +58,34 @@ export function SOSContactForm({ contact, onSave, onCancel }: SOSContactFormProp
       <FormInput
         label="Nombre"
         value={formData.name}
-        onChange={(e) => handleChange('name', e.target.value)}
+        onChange={(value) => handleChange('name', value)}
         placeholder="Ej: María"
       />
       <FormInput
         label="Apellido"
         value={formData.last_name}
-        onChange={(e) => handleChange('last_name', e.target.value)}
+        onChange={(value) => handleChange('last_name', value)}
         placeholder="Ej: García"
       />
       <Box sx={{ display: 'flex', gap: 2 }}>
         <FormInput
           label="Indicativo"
           value={formData.phone_indicative}
-          onChange={(e) => handleChange('phone_indicative', e.target.value)}
+          onChange={(value) => handleChange('phone_indicative', value)}
           placeholder="+57"
           sx={{ maxWidth: 110 }}
         />
         <FormInput
           label="Teléfono"
           value={formData.phone_number}
-          onChange={(e) => handleChange('phone_number', e.target.value)}
+          onChange={(value) => handleChange('phone_number', value)}
           placeholder="3001234567"
         />
       </Box>
       <FormInput
         label="Ubicación"
         value={formData.location}
-        onChange={(e) => handleChange('location', e.target.value)}
+        onChange={(value) => handleChange('location', value)}
         placeholder="Ej: Bogotá, Colombia"
       />
       <FormSelect
