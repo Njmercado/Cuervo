@@ -10,4 +10,6 @@ export const ROUTES = {
   EMERGENCY_HISTORY: '/emergency-history',
   LANDING: '/',
   BUY: '/buy',
+  RECOVER_PASSWORD: '/recover-password',
+  UPDATE_PASSWORD: '/update-password',
 }

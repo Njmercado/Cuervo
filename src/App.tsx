@@ -10,6 +10,8 @@ import { ProtectedRoute } from './utils/protectedRoute'
 import { ROUTES } from './constants'
 import { Landing } from './components/Landing'
 import { Buy } from './components/Buy'
+import { RecoverPassword } from './components/RecoverPassword'
+import { UpdatePassword } from './components/UpdatePassword'
 
 declare module '@mui/material/styles' {
   interface Palette {
@@ -317,6 +319,8 @@ function App() {
           <Route path={ROUTES.LANDING} element={<Landing />} />
           <Route path={ROUTES.BUY} element={<Buy />} />
           <Route path={ROUTES.LOG_IN} element={<Login />} />
+          <Route path={ROUTES.RECOVER_PASSWORD} element={<RecoverPassword />} />
+          <Route path={ROUTES.UPDATE_PASSWORD} element={<UpdatePassword />} />
           <Route path={ROUTES.ACTIVATE + "/:license_id?"} element={<Activate />} />
           <Route path={ROUTES.DASHBOARD + "/*"} element={
             <ProtectedRoute>
