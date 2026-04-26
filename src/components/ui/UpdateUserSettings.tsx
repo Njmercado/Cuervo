@@ -21,14 +21,50 @@ export function UpdateUserSettings() {
     }
   }, [user])
 
+  const handleSave = async () => {
+    try {
+      await updateUser(form as User).unwrap()
+      toast.success('Usuario actualizado correctamente')
+    } catch (error: any) {
+      switch (error.status) {
+        case 400:
+          toast.error('Error al actualizar el usuario, campos inválidos')
+          break;
+        default:
+          toast.error('Error al actualizar el usuario, por favor intente de nuevo')
+          break;
+      }
+    }
+  }
+
   return (
     <Grid container columns={12} spacing={2}>
+      <Grid size={{ xs: 12 }}>
+        {/* TODO: Add a helper text to explain what is a public username, also check if the public username is already taken and show error messages for wrong username structure */}
+        <FormInput
+          label="Nombre de usuario público"
+          name="public_username"
+          value={form?.public_username ?? ''}
+          onChange={(value) => handleChange('public_username', value)}
+          rules={[
+            {
+              validate: (value: string) => value.length >= 1 && value.length <= 6,
+              errorMessage: 'Debe tener entre 1 y 6 caracteres',
+            },
+            {
+              validate: (value: string) => /^[A-Z0-9_]*$/.test(value),
+              errorMessage: 'Solo puede contener letras, números y guiones bajos',
+            }
+          ]}
+          isValid={(valid) => console.log(valid)}
+        />
+      </Grid>
       <Grid size={{ xs: 12, sm: 6 }}>
         <FormInput
           label="Nombre"
           name="name"
           value={form?.name}
-          onChange={(e) => handleChange('name', e.target.value)}
+          onChange={(value) => handleChange('name', value)}
         />
       </Grid>
       <Grid size={{ xs: 12, sm: 6 }}>
@@ -36,7 +72,7 @@ export function UpdateUserSettings() {
           label="Apellido"
           name="last_name"
           value={form?.last_name}
-          onChange={(e) => handleChange('last_name', e.target.value)}
+          onChange={(value) => handleChange('last_name', value)}
         />
       </Grid>
       <Grid size={{ xs: 12, sm: 6 }}>
@@ -53,7 +89,7 @@ export function UpdateUserSettings() {
           label="Número de Documento"
           name="id_number"
           value={form?.id_number}
-          onChange={(e) => handleChange('id_number', e.target.value)}
+          onChange={(value) => handleChange('id_number', value)}
         />
       </Grid>
       <Grid size={{ xs: 12, sm: 6 }}>
@@ -79,7 +115,7 @@ export function UpdateUserSettings() {
           label="Lugar de Nacimiento"
           name="from"
           value={form?.from}
-          onChange={(e) => handleChange('from', e.target.value)}
+          onChange={(value) => handleChange('from', value)}
         />
       </Grid>
       <Grid size={{ xs: 12, sm: 6 }}>
@@ -87,7 +123,7 @@ export function UpdateUserSettings() {
           label="Vivo en"
           name="living_in"
           value={form?.living_in}
-          onChange={(e) => handleChange('living_in', e.target.value)}
+          onChange={(value) => handleChange('living_in', value)}
         />
       </Grid>
       <Grid size={2}>
@@ -95,7 +131,7 @@ export function UpdateUserSettings() {
           label="Indicativo"
           name="personal_phone_indicative"
           value={form?.personal_phone_indicative}
-          onChange={(e) => handleChange('personal_phone_indicative', e.target.value)}
+          onChange={(value) => handleChange('personal_phone_indicative', value)}
         />
       </Grid>
       <Grid size={10}>
@@ -103,20 +139,13 @@ export function UpdateUserSettings() {
           label="Teléfono"
           name="personal_phone_number"
           value={form?.personal_phone_number}
-          onChange={(e) => handleChange('personal_phone_number', e.target.value)}
+          onChange={(value) => handleChange('personal_phone_number', value)}
         />
       </Grid>
       <Grid size={12} display='flex' justifyContent='flex-end'>
         <Button
           variant="contained"
-          onClick={async () => {
-            try {
-              await updateUser(form as User).unwrap()
-              toast.success('Usuario actualizado correctamente')
-            } catch {
-              toast.error('Error al actualizar el usuario')
-            }
-          }}
+          onClick={handleSave}
         >
           Actualizar
         </Button>

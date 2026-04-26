@@ -18,7 +18,7 @@ export const usersApi = apiSlice.injectEndpoints({
         const { data, error } = await supabase.from('User').select('*').eq('user_id', user.id).single()
         if (error) {
           if (error.code === 'PGRST116') {
-             return { data: null }
+            return { data: null }
           }
           return { error: { status: 500, data: error.message } }
         }
@@ -41,9 +41,9 @@ export const usersApi = apiSlice.injectEndpoints({
     }),
     updateUser: builder.mutation<void, User>({
       queryFn: async (userData) => {
-        const { data: { user } } = await supabase.auth.getUser()
+        const { data: { user } } = await supabase.auth.getUser() // TODO: I'm not sure about this. I think is not necessary to request user on each request. I think we can get it from the store.
         if (!user) return { error: { status: 401, data: 'Unauthorized' } }
-        const { error } = await supabase.from('User').update({
+        const { error, status } = await supabase.from('User').update({
           name: userData.name,
           last_name: userData.last_name,
           full_name: `${userData.name} ${userData.last_name}`,
@@ -55,8 +55,9 @@ export const usersApi = apiSlice.injectEndpoints({
           id_number: userData.id_number,
           living_in: userData.living_in,
           from: userData.from,
+          public_username: userData.public_username?.toUpperCase(),
         }).eq('user_id', user.id).eq('id', userData.id)
-        if (error) return { error: { status: 500, data: error.message } }
+        if (error) return { error: { status: status, data: error.message } }
         return { data: undefined }
       },
       invalidatesTags: ['User', 'Profile']
