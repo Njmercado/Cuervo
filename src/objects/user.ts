@@ -13,7 +13,7 @@ export interface UserData {
   devices?: string[],
   username: string
   code: number
-  public_username?: string | null
+  public_username?: string
 }
 
 export interface User extends UserData {

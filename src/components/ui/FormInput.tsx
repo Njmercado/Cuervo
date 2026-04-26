@@ -27,7 +27,7 @@ export function Input({
   const [errors, setErrors] = useState<string[]>([])
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const changedValue = e.target.value.toUpperCase()
+    const changedValue = e.target.value
     onChange?.(changedValue)
 
     const newErrors: string[] = []

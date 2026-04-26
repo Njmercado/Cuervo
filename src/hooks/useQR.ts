@@ -1,5 +1,6 @@
 import { ROUTES } from '../constants'
 
+// TODO: this util function shouldn't be a hook
 export const useQR = (token?: string): { url: string } => {
   if (!token) return { url: '' }
 
