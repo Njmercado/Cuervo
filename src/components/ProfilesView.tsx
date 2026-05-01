@@ -53,8 +53,8 @@ export function ProfilesView() {
     }
   }
 
-  const handleUpdateChosenStatus = async (id: string, currentChosenProfileId?: string) => {
-    const { error } = await updateChosenStatus({ id, currentChosenProfileId })
+  const handleUpdateChosenStatus = async (id: string) => {
+    const { error } = await updateChosenStatus({ id })
     if (error) {
       toast.error(error as string)
     } else {
@@ -148,7 +148,7 @@ export function ProfilesView() {
                     setOpenProfileDrawer(true)
                   }}
                   onDelete={(id: string) => handleDeleteProfile(id)}
-                  onSelect={(id: string) => handleUpdateChosenStatus(id, mainProfile?.id)}
+                  onSelect={(id: string) => handleUpdateChosenStatus(id)}
                 />
               </Grid>
             ))}

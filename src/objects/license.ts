@@ -12,4 +12,5 @@ export interface License extends LicenseData {
   user_id: string | null
   created_at?: string
   updated_at?: string
+  username: string
 }

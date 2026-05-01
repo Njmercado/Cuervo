@@ -99,27 +99,20 @@ export const profilesApi = apiSlice.injectEndpoints({
       invalidatesTags: ['Profile']
     }),
     updateChosenStatus: builder.mutation<void, { id: string; currentChosenProfileId?: string }>({
-      queryFn: async ({ id, currentChosenProfileId }) => {
+      queryFn: async ({ id }) => {
         const { data: { user } } = await supabase.auth.getUser()
         if (!user) return { error: { status: 401, data: 'Unauthorized' } }
 
-        if (currentChosenProfileId) {
-          const { error: err1 } = await supabase
-            .from('Profile')
-            .update({ chosen: false })
-            .eq('id', currentChosenProfileId)
-            .eq('user_id', user.id)
-          if (err1) return { error: { status: 500, data: err1.message } }
+        const { error, data } = await supabase.rpc('update_chosen_profile', {
+          new_chosen_profile_id: id,
+          user_id: user.id
+        })
+
+        if (error) {
+          return { error: { status: 500, message: error.message } }
         }
 
-        const { error: err2 } = await supabase
-          .from('Profile')
-          .update({ chosen: true })
-          .eq('id', id)
-          .eq('user_id', user.id)
-        if (err2) return { error: { status: 500, data: err2.message } }
-
-        return { data: undefined }
+        return { data }
       },
       invalidatesTags: ['Profile']
     }),
