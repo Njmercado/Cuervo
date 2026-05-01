@@ -127,13 +127,14 @@ export function PasswordResetForm({
           />
         </Box>
 
-        <Grid size={12} display='flex' justifyContent='flex-end'>
+        <Grid size={12}>
           <Button
             type="submit"
             variant="contained"
             color="primary"
             disabled={loading || !password || !confirmPassword}
             sx={{ mt: 2 }}
+            fullWidth
           >
             {loading ? <CircularProgress size={24} color="inherit" /> : 'Actualizar contraseña'}
           </Button>

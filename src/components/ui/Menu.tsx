@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import {
   Box,
   useTheme,
@@ -13,7 +13,7 @@ import {
   BottomNavigationAction,
 } from '@mui/material'
 import LogoutIcon from '@mui/icons-material/Logout'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import { ROUTES } from '../../constants'
 import { useGetUserQuery } from '../../store/endpoints/usersApi'
@@ -23,6 +23,7 @@ export interface MenuOption {
   label: string
   icon: React.ReactNode
   navigate: string
+  pathname: string
 }
 export interface MenuProps {
   onClose?: () => void
@@ -33,39 +34,57 @@ export const MENU_OPTIONS: Array<MenuOption> = [
   {
     label: 'Mis Perfiles',
     icon: <Person />,
-    navigate: ROUTES.DASHBOARD
+    navigate: ROUTES.DASHBOARD,
+    pathname: ''
   },
   {
     label: 'SOS Contactos',
     icon: <Shield />,
-    navigate: `${ROUTES.DASHBOARD}/${ROUTES.SOS_CONTACTS}`
+    navigate: `${ROUTES.DASHBOARD}/${ROUTES.SOS_CONTACTS}`,
+    pathname: 'sos-contact',
   },
   {
     label: 'Condiciones',
     icon: <MonitorHeart />,
-    navigate: `${ROUTES.DASHBOARD}/${ROUTES.CONDITION}`
+    navigate: `${ROUTES.DASHBOARD}/${ROUTES.CONDITION}`,
+    pathname: 'condition',
   },
   {
     label: 'Historial de Emergencias',
     icon: <History />,
-    navigate: `${ROUTES.DASHBOARD}/${ROUTES.EMERGENCY_HISTORY}`
+    navigate: `${ROUTES.DASHBOARD}/${ROUTES.EMERGENCY_HISTORY}`,
+    pathname: 'emergency-history',
   },
   {
     label: 'Ajustes',
     icon: <SettingsIcon />,
-    navigate: `${ROUTES.DASHBOARD}/${ROUTES.SETTINGS}`
+    navigate: `${ROUTES.DASHBOARD}/${ROUTES.SETTINGS}`,
+    pathname: 'settings',
   },
 ]
 
 export function Menu({ onClose, mobileOnly }: MenuProps) {
+  const location = useLocation()
   const theme = useTheme()
   const navigate = useNavigate()
   const { data: user } = useGetUserQuery()
   const [value, setValue] = useState(0)
 
+  useEffect(() => {
+    const pathname = location.pathname.split('/').reverse()[0]
+    const currentPageIndex = MENU_OPTIONS.map(option => option.pathname).indexOf(pathname);
+    setValue(currentPageIndex);
+  }, []);
+
   const handleLogout = async () => {
     await supabase.auth.signOut()
     navigate(ROUTES.LOG_IN)
+  }
+
+  const handleItemSelected = (index: number, navigateTo: string) => {
+    setValue(index);
+    navigate(navigateTo);
+    onClose?.();
   }
 
   const SideMenu = () => {
@@ -93,9 +112,9 @@ export function Menu({ onClose, mobileOnly }: MenuProps) {
         <Box sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <List>
             {
-              MENU_OPTIONS.map((option) => (
+              MENU_OPTIONS.map((option, index) => (
                 <ListItem key={option.label}>
-                  <ListItemButton onClick={() => { navigate(option.navigate); onClose?.() }}>
+                  <ListItemButton onClick={() => handleItemSelected(index, option.navigate)} selected={index == value}>
                     <ListItemIcon>
                       {option.icon}
                     </ListItemIcon>

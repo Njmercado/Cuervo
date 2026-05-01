@@ -140,7 +140,7 @@ export function ProfilesView() {
         {otherProfiles.length > 0 && (
           <Grid container columns={12} spacing={2} aria-label="Profiles List" mt={4}>
             {otherProfiles.map((profile) => (
-              <Grid key={profile.id} size={{ xs: 12, sm: 6, md: 4, lg: 6 }}>
+              <Grid key={profile.id} size={{ xs: 12, sm: 6, md: 6 }}>
                 <ProfileCard
                   profile={profile}
                   onEdit={(profile: ProfileType) => {
@@ -161,9 +161,9 @@ export function ProfilesView() {
   return (
     <Box component='main'>
       {/* Main Content */}
-      < Box sx={{ p: 4 }}>
+      <Box sx={{ p: 4 }}>
         {/* User information */}
-        < Box component="header" sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Box component="header" sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
           <Typography fontWeight={700} sx={{ flexGrow: 1, color: theme.palette.primary.main, fontSize: { xs: theme.customSizes.font.xl, md: theme.customSizes.font.h2 } }}>
             Perfiles
           </Typography>

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Menu, MenuItem, Paper, Card, CardContent, CardActionArea, Typography, Button, IconButton, Box } from "@mui/material"
+import { Menu, MenuItem, Paper, Card, CardContent, Typography, Button, IconButton, Box } from "@mui/material"
 import type { Profile } from "../../objects/profile"
 import ShieldIcon from '@mui/icons-material/Shield'
 import EditIcon from '@mui/icons-material/Edit'
@@ -88,12 +88,10 @@ export function ProfileCard({ profile, onEdit, onDelete, onSelect }: ProfileCard
           </Box>
         </Box>
       </CardContent>
-      <CardActionArea sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: 2, px: 2 }}>
-        <Button variant="text" color="success" onClick={() => profile.id && onSelect?.(profile.id)}>
-          <AutorenewIcon />
-          <span>Activar este perfil</span>
-        </Button>
-      </CardActionArea>
+      <Button variant="text" color="success" onClick={() => profile.id && onSelect?.(profile.id)}>
+        <AutorenewIcon />
+        <span>Activar este perfil</span>
+      </Button>
     </Card>
   )
 }

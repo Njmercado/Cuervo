@@ -132,7 +132,7 @@ export function UpdateUserSettings() {
           onChange={handleChange('living_in')}
         />
       </Grid>
-      <Grid size={2}>
+      <Grid size={{ xs: 12, md: 3, lg: 2 }}>
         <FormInput
           label="Indicativo"
           name="personal_phone_indicative"
@@ -140,7 +140,7 @@ export function UpdateUserSettings() {
           onChange={handleChange('personal_phone_indicative')}
         />
       </Grid>
-      <Grid size={10}>
+      <Grid size={{ xs: 12, md: 9, lg: 10 }}>
         <FormInput
           label="Teléfono"
           name="personal_phone_number"
@@ -148,8 +148,9 @@ export function UpdateUserSettings() {
           onChange={handleChange('personal_phone_number')}
         />
       </Grid>
-      <Grid size={12} display='flex' justifyContent='flex-end'>
+      <Grid size={12}>
         <Button
+          fullWidth
           variant="contained"
           onClick={handleSave}
         >
