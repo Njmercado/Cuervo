@@ -1,4 +1,5 @@
 import { type PublicProfileType } from '../objects/publicProfile'
+import { RH_LABEL } from '../constants'
 
 /**
  * Builds the identity and demographics portion of the audio script
@@ -20,7 +21,7 @@ function generateIdentityText(profile: PublicProfileType) {
 function generateMedicalText(profile: PublicProfileType) {
   let text = ''
 
-  if (profile.rh) text += `Tipo de sangre ${profile.rh}. `
+  if (profile.rh) text += `Tipo de sangre ${RH_LABEL[profile.rh]}. `
 
   const allergies = profile.medical_conditions?.filter(c => c.is_allergy)
   if (allergies && allergies.length > 0) {

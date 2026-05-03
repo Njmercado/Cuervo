@@ -1,8 +1,21 @@
+export const RH = {
+  ['O+']: 'O+',
+  ['O-']: 'O-',
+  ['A+']: 'A+',
+  ['A-']: 'A-',
+  ['B+']: 'B+',
+  ['B-']: 'B-',
+  ['AB+']: 'AB+',
+  ['AB-']: 'AB-',
+} as const;
+
+type RHType = keyof typeof RH
+
 export interface UserData {
   name: string
   last_name: string
   full_name: string
-  rh: string
+  rh: RHType
   sex: string
   personal_phone_number: string
   personal_phone_indicative: string

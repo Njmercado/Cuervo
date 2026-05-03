@@ -1,4 +1,4 @@
-import { useQR } from '../../hooks/useQR'
+import { buildQRUrl } from '../../utils/buildQRUrl'
 import { Box, Button, Card, CardContent, Paper, Typography } from '@mui/material'
 import ShareIcon from '@mui/icons-material/Share'
 import { ROUTES } from '../../constants'
@@ -8,7 +8,7 @@ import { useGetUserQuery } from '../../store/endpoints'
 export const QRCard = () => {
   const theme = useTheme()
   const { data: user } = useGetUserQuery()
-  const { url } = useQR(user?.username)
+  const url = user?.username ? buildQRUrl(`${ROUTES.PUBLIC}/${user.username}`) : ''
 
   const handleShareProfile = (id: string) => {
     window.open(`${ROUTES.PUBLIC}/${id}`, '_blank');
