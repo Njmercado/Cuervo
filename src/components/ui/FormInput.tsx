@@ -1,5 +1,5 @@
 import { type ComponentProps, useState } from 'react'
-import { TextField, FormHelperText } from '@mui/material'
+import { TextField, FormHelperText, FormLabel, Box } from '@mui/material'
 import { type SxProps, type Theme } from '@mui/material'
 
 export interface Rule {
@@ -8,8 +8,8 @@ export interface Rule {
 }
 
 interface FormInputProps extends Omit<ComponentProps<'input'>, 'onChange'> {
-  label: string
-  onChange?: (value: string) => void
+  label?: string
+  onChange?: (value: string, error?: boolean) => void
   disabled?: boolean
   textarea?: boolean
   sx?: SxProps<Theme>
@@ -28,7 +28,6 @@ export function FormInput({
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const changedValue = e.target.value
-    onChange?.(changedValue)
 
     const newErrors: string[] = []
     rules?.forEach((rule) => {
@@ -37,14 +36,24 @@ export function FormInput({
         if (message) newErrors.push(message)
       }
     })
+    onChange?.(changedValue, newErrors.length > 0)
     setErrors(newErrors)
     isValid?.(newErrors.length === 0, newErrors)
   }
 
   return (
-    <>
+    <Box>
+      {label && (
+        <FormLabel
+          sx={{
+            textTransform: 'uppercase', fontSize: 11, letterSpacing: '0.1em',
+            fontWeight: 600, color: (t: Theme) => t.palette.custom.primary[100]
+          }}
+        >
+          {label}
+        </FormLabel>
+      )}
       <TextField
-        label={label}
         type={type}
         value={value}
         onChange={handleChange}
@@ -56,22 +65,19 @@ export function FormInput({
         multiline={textarea}
         minRows={3}
         slotProps={{
-          inputLabel: {
-            sx: { textTransform: 'uppercase', fontSize: 11, letterSpacing: '0.15em' },
-          },
           htmlInput: { props }
         }}
         sx={sx}
         error={errors.length > 0}
       />
 
-      <FormHelperText error={errors.length > 0}>
-        {
-          errors && errors.map((error, index) => (
+      {errors.length > 0 &&
+        <FormHelperText error>
+          {errors.map((error, index) => (
             <span key={index}> {error} <br /></span>
-          ))
-        }
-      </FormHelperText>
-    </>
+          ))}
+        </FormHelperText>
+      }
+    </Box>
   )
 }

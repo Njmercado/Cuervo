@@ -10,6 +10,4 @@ export const RELATIONSHIP_OPTIONS = [
   'Primo/a',
   'Amigo/a',
   'Vecino/a',
-  'Compañero/a de trabajo',
-  'Otro',
 ]

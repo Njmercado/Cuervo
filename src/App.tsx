@@ -36,6 +36,13 @@ declare module '@mui/material/styles' {
         90: string;
         70: string;
       };
+      metal: {
+        base: string;
+        light: string;
+        dark: string;
+        border: string;
+        text: string;
+      };
     }
   }
   interface PaletteOptions {
@@ -140,6 +147,13 @@ const lightTheme = createTheme({
         100: 'rgba(238, 238, 240, 1)',
         90: 'rgba(238, 238, 240, 0.9)',
         70: 'rgba(238, 238, 240, 0.7)',
+      },
+      metal: {
+        base: '#C0C0C0',
+        light: '#E8E8E8',
+        dark: '#A0A0A0',
+        border: '#8A8A8A',
+        text: '#2A2A2A',
       },
     }
   },
