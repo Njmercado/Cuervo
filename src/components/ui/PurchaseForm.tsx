@@ -219,7 +219,12 @@ export function PurchaseForm() {
       <ProductBadge />
 
       {/* Stepper */}
-      <Stepper activeStep={step} sx={{ mb: 4 }}>
+      <Stepper
+        activeStep={step}
+        orientation="horizontal"
+        alternativeLabel
+        sx={{ mb: 4 }}
+      >
         {steps.map((label) => (
           <Step key={label}>
             <StepLabel>{label}</StepLabel>
@@ -315,17 +320,40 @@ export function PurchaseForm() {
             </Typography>
           </Box>
 
-          {/* Form side by side + Preview Tag*/}
-          <Box sx={{ display: 'grid', gridTemplateColumns: { xs: '1fr', sm: '2fr 1fr' }, gap: 5, alignItems: 'center' }}>
-            <EngravingForm data={engraving} onChange={handleEngravingChange} />
-            <EngravingTag name={contact.name} lastName={contact.lastName} data={engraving} showEngraving={wantsEngraving} />
+          {/* Form + Preview Tag — tag above form on xs, form-left/tag-right on sm */}
+          <Box sx={{
+            display: 'grid',
+            gridTemplateColumns: { xs: '1fr', sm: '2fr 1fr' },
+            gap: { xs: 3, sm: 5 },
+            alignItems: 'center',
+          }}>
+            <Box sx={{ order: { xs: 2, sm: 1 } }}>
+              <EngravingForm data={engraving} onChange={handleEngravingChange} />
+            </Box>
+            <Box sx={{ order: { xs: 1, sm: 2 }, display: 'flex', justifyContent: 'center' }}>
+              <EngravingTag name={contact.name} lastName={contact.lastName} data={engraving} showEngraving={wantsEngraving} />
+            </Box>
           </Box>
 
-          <Box sx={{ display: 'flex', gap: 2, mt: 1 }}>
-            <Button variant="outlined" startIcon={<ArrowBackIcon />} onClick={() => setStep(0)} sx={{ borderRadius: theme.customSizes.radius.pill }}>
+          <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, mt: 1 }}>
+            <Button
+              variant="outlined"
+              fullWidth
+              startIcon={<ArrowBackIcon />}
+              onClick={() => setStep(0)}
+              sx={{ borderRadius: theme.customSizes.radius.pill, order: { xs: 2, sm: 1 }, py: { xs: 1, sm: 'inherit' } }}
+            >
               Atrás
             </Button>
-            <Button variant="contained" color="primary" fullWidth endIcon={<ArrowForwardIcon />} disabled={formError} onClick={() => setStep(confirmStep)} sx={{ py: 2, borderRadius: theme.customSizes.radius.pill }}>
+            <Button
+              variant="contained"
+              color="primary"
+              fullWidth
+              endIcon={<ArrowForwardIcon />}
+              disabled={formError}
+              onClick={() => setStep(confirmStep)}
+              sx={{ py: { xs: 1.5, sm: 2 }, borderRadius: theme.customSizes.radius.pill, order: { xs: 1, sm: 2 } }}
+            >
               Revisar pedido
             </Button>
           </Box>
@@ -371,8 +399,14 @@ export function PurchaseForm() {
             </Card>
           )}
 
-          <Box sx={{ display: 'flex', gap: 2, mt: 1 }}>
-            <Button variant="outlined" startIcon={<ArrowBackIcon />} onClick={() => setStep(wantsEngraving ? engravingStep : 0)} sx={{ borderRadius: theme.customSizes.radius.pill }}>
+          <Box sx={{ display: 'flex', flexDirection: { xs: 'column', sm: 'row' }, gap: 2, mt: 1 }}>
+            <Button
+              variant="outlined"
+              fullWidth
+              startIcon={<ArrowBackIcon />}
+              onClick={() => setStep(wantsEngraving ? engravingStep : 0)}
+              sx={{ borderRadius: theme.customSizes.radius.pill, order: { xs: 2, sm: 1 }, py: { xs: 1, sm: 'inherit' } }}
+            >
               Atrás
             </Button>
             <Button
@@ -381,7 +415,7 @@ export function PurchaseForm() {
               fullWidth
               startIcon={<WhatsAppIcon />}
               onClick={handleSubmit}
-              sx={{ py: 2, borderRadius: theme.customSizes.radius.pill }}
+              sx={{ py: { xs: 1.5, sm: 2 }, borderRadius: theme.customSizes.radius.pill, order: { xs: 1, sm: 2 } }}
             >
               Continuar por WhatsApp
             </Button>
