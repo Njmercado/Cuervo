@@ -526,7 +526,7 @@ const [form, setForm] = useState<ConditionData>(() =>
 
 **File**: `src/hooks/useQR.ts:13-15`
 
-**Problem**: QR codes always link to test domain `quiensoy.com.co/p/123456` instead of actual user profile.
+**Problem**: QR codes always link to test domain `quienes.co/p/123456` instead of actual user profile.
 
 ```typescript
 // ❌ WRONG - Hardcoded test URL
